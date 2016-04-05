@@ -23,10 +23,10 @@
   "typings": "dist/index.d.ts",
 
   "dependencies": {
-    "angular": "^1.5.3"
+    "angular": "^1.4.0"
   },
   "peerDependencies": {
-    "angular": "^1.5.3"
+    "angular": "^1.4.0"
   },
   "devDependencies": {
     "typescript": "^1.8.9",
