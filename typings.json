@@ -1,0 +1,10 @@
+{
+  "name": "ay-accordion",
+  "version": false,
+  "copyright": "Copyright 2016 Ayogo Health Inc.",
+  "dependencies": {},
+  "ambientDependencies": {
+    "angular": "registry:dt/angular#1.5.0+20160328125810",
+    "jquery": "registry:dt/jquery#1.10.0+20160316155526"
+  }
+}

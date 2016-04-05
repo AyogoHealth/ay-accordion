@@ -1,0 +1,43 @@
+{
+  "name": "ay-accordion",
+  "version": "1.0.0",
+  "copyright": "Copyright 2016 Ayogo Health Inc.",
+  "license": "MIT",
+  "homepage": "http://ayogo.com",
+  "author": "Ayogo Health Inc. <info@ayogo.com>",
+  "contributors": [
+    "Darryl Pogue <darryl@dpogue.ca>",
+    "Steven Stark <steven@stevenstark.com>"
+  ],
+  "description": "A mobile-friendly, jank-free accordion directive for Angular 1.x",
+  "keywords": [
+    "angular",
+    "accordion",
+    "browser",
+    "client-side"
+  ],
+  "repository": "AyogoHealth/ay-accordion",
+
+  "main": "dist/index.js",
+  "jsnext:main": "dist/index.es6.js",
+  "typings": "dist/index.d.ts",
+
+  "dependencies": {
+    "angular": "^1.5.3"
+  },
+  "peerDependencies": {
+    "angular": "^1.5.3"
+  },
+  "devDependencies": {
+    "typescript": "^1.8.9",
+    "typings": "^0.7.12"
+  },
+
+  "scripts": {
+    "typings": "typings",
+    "dist": "tsc -p . && cp src/index.ts dist/index.es6.js",
+    "preversion": "typings install",
+    "version": "npm run dist && git add -A dist",
+    "postversion": "git push && git push --tags"
+  }
+}
