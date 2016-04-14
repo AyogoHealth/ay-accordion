@@ -10,7 +10,8 @@
         "experimentalDecorators": true,
         "noLib": false,
         "outDir": "dist",
-        "sourceMap": true,
+        "inlineSourceMap": true,
+        "inlineSources": true,
         "stripInternal": true,
         "pretty": true
     },

@@ -33,6 +33,12 @@
     "typings": "^0.7.12"
   },
 
+  "browserify": {
+    "transform": [
+      ["browserify-ngannotate", {"sourcemap": true}]
+    ]
+  },
+
   "scripts": {
     "typings": "typings",
     "dist": "tsc -p . && cp src/index.ts dist/index.es6.js",

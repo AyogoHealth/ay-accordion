@@ -21,7 +21,24 @@ Usage
 
 To get started, install the package from npm: `npm install ay-accordion`.
 
-### ES5
+### Basic usage
+
+Add a script tag to your page to reference the accordion.js file:
+
+```html
+<script src="node_modules/ay-accordion/dist/accordion.js"></script>
+```
+
+Reference the module in your Angular app's dependencies:
+
+```javascript
+angular.module(myApp, ['ayAccordion'])
+```
+
+### ES5 with Browserify
+
+Install the browserify-ngannotate transform:
+`npm install browserify-ngannotate`
 
 Reference the module in your Angular app's dependencies:
 
@@ -39,6 +56,8 @@ import ayAccordion from 'ay-accordion';
 
 angular.module(myApp, [ayAccordion])
 ```
+
+A TypeScript module definition is included.
 
 
 Directives
