@@ -1,6 +1,6 @@
 {
   "name": "ay-accordion",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "copyright": "Copyright 2016 Ayogo Health Inc.",
   "license": "MIT",
   "homepage": "http://ayogo.com",
@@ -17,11 +17,9 @@
     "client-side"
   ],
   "repository": "AyogoHealth/ay-accordion",
-
   "main": "dist/index.js",
   "jsnext:main": "dist/index.es6.js",
   "typings": "dist/index.d.ts",
-
   "dependencies": {
     "angular": "^1.4.0"
   },
@@ -32,13 +30,16 @@
     "typescript": "^1.8.9",
     "typings": "^0.8.1"
   },
-
   "browserify": {
     "transform": [
-      ["browserify-ngannotate", {"sourcemap": true}]
+      [
+        "browserify-ngannotate",
+        {
+          "sourcemap": true
+        }
+      ]
     ]
   },
-
   "scripts": {
     "typings": "typings",
     "dist": "tsc -p . && cp src/index.ts dist/index.es6.js",
