@@ -226,8 +226,6 @@ angular.module('ayAccordion', [])
       self.rootCtrl = null;
       self.isOpen = false;
 
-      $element[0].setAttribute('role', 'group');
-
       self.open = function() {
         $element.addClass('open');
         $element[0].setAttribute('open', 'open');
@@ -270,6 +268,18 @@ angular.module('ayAccordion', [])
         var fn = self.isOpen ? self.close : self.open;
 
         self.rootCtrl.run(fn, function() {
+          Array.prototype.forEach.call($element.children(), function(el) {
+            if (el.hasAttribute('ay-accordion-header')) {
+              return;
+            }
+
+            if (self.isOpen) {
+              el.removeAttribute('hidden');
+            } else {
+              el.setAttribute('hidden', 'hidden');
+            }
+          });
+
           cb();
         });
       };
@@ -280,8 +290,20 @@ angular.module('ayAccordion', [])
 
       selfCtrl.rootCtrl = rootCtrl;
 
+      Array.prototype.forEach.call($element.children(), function(el) {
+        if (el.hasAttribute('ay-accordion-header')) {
+          return;
+        }
+
+        if ($element[0].hasAttribute('open')) {
+          el.removeAttribute('hidden');
+        } else {
+          el.setAttribute('hidden', 'hidden');
+        }
+      });
+
       $attrs.$observe('open', function(newval) {
-        if (newval) {
+        if (newval != null) {
           if (!$element.hasClass('open')) {
             selfCtrl.open();
           }
@@ -321,7 +343,7 @@ angular.module('ayAccordion', [])
         return activate($event);
       });
 
-      $element.on('keyup', function($event) {
+      $element.on('keydown', function($event) {
         if ($event.keyCode === 32 || $event.keyCode === 13) {
           return activate($event);
         }
