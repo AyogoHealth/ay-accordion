@@ -281,7 +281,7 @@ angular.module('ayAccordion', [])
       selfCtrl.rootCtrl = rootCtrl;
 
       $attrs.$observe('open', function(newval) {
-        if (newval) {
+        if (newval != null) {
           if (!$element.hasClass('open')) {
             selfCtrl.open();
           }
