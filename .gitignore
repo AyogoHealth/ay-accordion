@@ -1,0 +1,13 @@
+# Copyright 2016 Ayogo Health Inc.
+
+.DS_Store
+.#*
+*~
+*.swp
+npm-debug.log
+doc/*
+log
+node_modules
+pkg
+tmp
+typings/**/*
