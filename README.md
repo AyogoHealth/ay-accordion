@@ -108,6 +108,10 @@ For the accordion to expand/collapse as intended, you'll need to add something
 like the following to your stylesheet:
 
 ```css
+[hidden] {
+    display: none;
+}
+
 [ay-accordion] {
     overflow: hidden;
     height: 30px;
