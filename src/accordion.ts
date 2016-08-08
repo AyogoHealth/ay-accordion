@@ -290,7 +290,7 @@ angular.module('ayAccordion', [])
 
       selfCtrl.rootCtrl = rootCtrl;
 
-      Array.prototype.forEach.call($element.children(), function(el) {
+      var childCallback = function(el) {
         if (el.hasAttribute('ay-accordion-header')) {
           return;
         }
@@ -300,7 +300,21 @@ angular.module('ayAccordion', [])
         } else {
           el.setAttribute('hidden', 'hidden');
         }
-      });
+      };
+
+      Array.prototype.forEach.call($element.children(), childCallback);
+
+      if ('MutationObserver' in window) {
+        var observer = new MutationObserver(function() {
+          Array.prototype.forEach.call($element.children(), childCallback);
+        });
+
+        observer.observe($element[0], { childList: true });
+
+        $element.on('$destroy', function() {
+          observer.disconnect();
+        });
+      }
 
       $attrs.$observe('open', function(newval) {
         if (newval || newval === "") {
