@@ -234,9 +234,8 @@ angular.module('ayAccordion', [])
           $element[0].scrollIntoView();
         }
 
-        $scope.$applyAsync(() => {
-          self.isOpen = true;
-        });
+        self.isOpen = true;
+        $scope.$applyAsync();
         self['onToggle']({state: true});
 
         if (!self.rootCtrl.multiple) {
@@ -248,9 +247,8 @@ angular.module('ayAccordion', [])
         $element.removeClass('open');
         $element[0].removeAttribute('open');
 
-        $scope.$applyAsync(() => {
-          self.isOpen = false;
-        });
+        self.isOpen = false;
+        $scope.$applyAsync();
         self['onToggle']({state: false});
 
 
@@ -265,9 +263,13 @@ angular.module('ayAccordion', [])
           return;
         }
 
-        var fn = self.isOpen ? self.close : self.open;
+        var fn = function() {
+          if (self.isOpen) {
+            self.close();
+          } else {
+            self.open();
+          }
 
-        self.rootCtrl.run(fn, function() {
           Array.prototype.forEach.call($element.children(), function(el) {
             if (el.hasAttribute('ay-accordion-header')) {
               return;
@@ -279,9 +281,9 @@ angular.module('ayAccordion', [])
               el.setAttribute('hidden', 'hidden');
             }
           });
+        };
 
-          cb();
-        });
+        self.rootCtrl.run(fn, cb);
       };
     },
     link: function($scope, $element, $attrs, $ctrls) {
