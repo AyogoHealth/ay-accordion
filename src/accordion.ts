@@ -234,9 +234,8 @@ angular.module('ayAccordion', [])
           $element[0].scrollIntoView();
         }
 
-        $scope.$applyAsync(() => {
-          self.isOpen = true;
-        });
+        self.isOpen = true;
+        $scope.$applyAsync();
         self['onToggle']({state: true});
 
         if (!self.rootCtrl.multiple) {
@@ -248,9 +247,8 @@ angular.module('ayAccordion', [])
         $element.removeClass('open');
         $element[0].removeAttribute('open');
 
-        $scope.$applyAsync(() => {
-          self.isOpen = false;
-        });
+        self.isOpen = false;
+        $scope.$applyAsync();
         self['onToggle']({state: false});
 
 
@@ -277,7 +275,7 @@ angular.module('ayAccordion', [])
               return;
             }
 
-            if (! self.isOpen) {
+            if (self.isOpen) {
               el.removeAttribute('hidden');
             } else {
               el.setAttribute('hidden', 'hidden');
