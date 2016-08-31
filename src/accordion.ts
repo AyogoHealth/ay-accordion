@@ -265,23 +265,27 @@ angular.module('ayAccordion', [])
           return;
         }
 
-        var fn = self.isOpen ? self.close : self.open;
+        var fn = function() {
+          if (self.isOpen) {
+            self.close();
+          } else {
+            self.open();
+          }
 
-        self.rootCtrl.run(fn, function() {
           Array.prototype.forEach.call($element.children(), function(el) {
             if (el.hasAttribute('ay-accordion-header')) {
               return;
             }
 
-            if (self.isOpen) {
+            if (! self.isOpen) {
               el.removeAttribute('hidden');
             } else {
               el.setAttribute('hidden', 'hidden');
             }
           });
+        };
 
-          cb();
-        });
+        self.rootCtrl.run(fn, cb);
       };
     },
     link: function($scope, $element, $attrs, $ctrls) {
