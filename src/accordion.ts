@@ -363,7 +363,6 @@ angular.module('ayAccordion', [])
       $scope.$watch(() => $ctrl.isOpen, () => updateState());
 
       $element.on('click', function($event) {
-        $element[0].blur();
         return activate($event);
       });
 
