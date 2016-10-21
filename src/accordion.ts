@@ -83,7 +83,6 @@ angular.module('ayAccordion', [])
         });
 
         var preRoot = self.root.getBoundingClientRect();
-        self.root.style.minHeight = preRoot.height + 'px';
 
         /* Take initial measurements */
         var measurements = map.call(elementsToWatch, function(el) {
@@ -93,6 +92,8 @@ angular.module('ayAccordion', [])
             initialTransform:   style(el, 'transform') || ''
           };
         });
+
+        self.root.style.minHeight = preRoot.height + 'px';
 
         /* Close existing panels if needed */
         if (!this.multiple && this.curPanel && fn !== this.curPanel.close) {
@@ -116,7 +117,9 @@ angular.module('ayAccordion', [])
             y: m.initialDimensions.top - m.newDimensions.top
           };
 
-          style(m.el, 'transform-origin', '0 0');
+          requestAnimationFrame(() => {
+            style(m.el, 'transform-origin', '0 0');
+          });
 
 
           m.children = [];
@@ -139,7 +142,9 @@ angular.module('ayAccordion', [])
               var origin = offsetFromParent.x + 'px ';
               origin += offsetFromParent.y + 'px';
 
-              style(el, 'transform-origin', origin);
+              requestAnimationFrame(() => {
+                style(el, 'transform-origin', origin);
+              });
             });
           }
         });
@@ -184,7 +189,10 @@ angular.module('ayAccordion', [])
             cleanup();
           }
         }
-        tween();
+
+        requestAnimationFrame(() => {
+          tween();
+        });
 
         function cleanup() {
           forEach.call(measurements, function(m) {
