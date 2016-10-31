@@ -96,7 +96,7 @@ angular.module('ayAccordion', [])
         self.root.style.minHeight = preRoot.height + 'px';
 
         /* Close existing panels if needed */
-        if (!this.multiple && this.curPanel && fn !== this.curPanel.close) {
+        if (!this.multiple && this.curPanel && fn !== this.curPanel.fn && fn !== this.curPanel.close) {
           this.curPanel.close();
         }
 
@@ -265,33 +265,33 @@ angular.module('ayAccordion', [])
         }
       };
 
+      self.fn = function() {
+        if (self.isOpen) {
+          self.close();
+        } else {
+          self.open();
+        }
+
+        Array.prototype.forEach.call($element.children(), function(el) {
+          if (el.hasAttribute('ay-accordion-header')) {
+            return;
+          }
+
+          if (self.isOpen) {
+            el.removeAttribute('hidden');
+          } else {
+            el.setAttribute('hidden', 'hidden');
+          }
+        });
+      };
+
 
       self.toggle = function(cb) {
         if (self.rootCtrl.blockClicks) {
           return;
         }
 
-        var fn = function() {
-          if (self.isOpen) {
-            self.close();
-          } else {
-            self.open();
-          }
-
-          Array.prototype.forEach.call($element.children(), function(el) {
-            if (el.hasAttribute('ay-accordion-header')) {
-              return;
-            }
-
-            if (self.isOpen) {
-              el.removeAttribute('hidden');
-            } else {
-              el.setAttribute('hidden', 'hidden');
-            }
-          });
-        };
-
-        self.rootCtrl.run(fn, cb);
+        self.rootCtrl.run(self.fn, cb);
       };
     },
     link: function($scope, $element, $attrs, $ctrls) {
