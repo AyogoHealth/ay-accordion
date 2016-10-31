@@ -8,6 +8,7 @@
   "contributors": [
     "Adam Vernon <adam@akineticblog.com>",
     "Darryl Pogue <darryl@dpogue.ca>",
+    "Onataze Messiri <onataze@gmail.com>",
     "Steven Stark <steven@stevenstark.com>"
   ],
   "description": "A mobile-friendly, jank-free accordion directive for Angular 1.x",
