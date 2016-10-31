@@ -16,17 +16,8 @@
         "pretty": true
     },
     "compileOnSave": false,
-    "filesGlob": [
-        "./typings/browser.d.ts",
+    "include": [
         "./src/*.ts"
     ],
-    "files": [
-        "./typings/browser.d.ts",
-        "./src/index.ts",
-        "./src/accordion.ts"
-    ],
-    "exclude": [],
-    "atom": {
-        "rewriteTsconfig": true
-    }
+    "exclude": []
 }
