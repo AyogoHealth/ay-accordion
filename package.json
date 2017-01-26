@@ -20,7 +20,7 @@
   ],
   "repository": "AyogoHealth/ay-accordion",
   "main": "dist/index.js",
-  "jsnext:main": "dist/index.es6.js",
+  "module": "dist/index.es6.js",
   "typings": "dist/index.d.ts",
   "dependencies": {
     "@types/angular": "^1.5.17",
@@ -30,17 +30,7 @@
     "angular": "^1.4.0"
   },
   "devDependencies": {
-    "typescript": "^2.0.6"
-  },
-  "browserify": {
-    "transform": [
-      [
-        "browserify-ngannotate",
-        {
-          "sourcemap": true
-        }
-      ]
-    ]
+    "typescript": "^2.1.0"
   },
   "scripts": {
     "dist": "tsc -p . && cp src/index.ts dist/index.es6.js",

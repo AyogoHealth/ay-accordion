@@ -38,9 +38,7 @@ angular.module('ayAccordion', [])
 .directive('ayAccordionRoot', function() {
   return {
     restrict: 'A',
-    controller: function($scope, $element, $attrs) {
-      "ngInject";
-
+    controller: ['$scope', '$element', '$attrs', function($scope, $element, $attrs) {
       // Helper Methods //////////////////////////////////////////////////////
       var filter  = Array.prototype.filter;
       var forEach = Array.prototype.forEach;
@@ -214,7 +212,7 @@ angular.module('ayAccordion', [])
           });
         }
       };
-    }
+    }]
   };
 })
 
@@ -226,9 +224,7 @@ angular.module('ayAccordion', [])
     bindToController: {
       onToggle: '&'
     },
-    controller: function($scope, $element, $attrs) {
-      "ngInject";
-
+    controller: ['$scope', '$element', '$attrs', function($scope, $element, $attrs) {
       var self = this;
 
       self.rootCtrl = null;
@@ -293,7 +289,7 @@ angular.module('ayAccordion', [])
 
         self.rootCtrl.run(self.fn, cb);
       };
-    },
+    }],
     link: function($scope, $element, $attrs, $ctrls) {
       var selfCtrl = $ctrls[0];
       var rootCtrl = $ctrls[1];
