@@ -19,5 +19,5 @@
  * IN THE SOFTWARE.
  */
 import './accordion';
-declare var _default: string;
+declare var _default: "ayAccordion";
 export default _default;
