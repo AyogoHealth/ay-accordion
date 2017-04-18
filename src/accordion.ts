@@ -188,9 +188,7 @@ angular.module('ayAccordion', [])
           }
         }
 
-        requestAnimationFrame(() => {
-          tween();
-        });
+        tween();
 
         function cleanup() {
           forEach.call(measurements, function(m) {
