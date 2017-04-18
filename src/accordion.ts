@@ -361,6 +361,10 @@ angular.module('ayAccordion', [])
       });
 
       $element.on('keydown', function($event) {
+        if ($event.repeat) {
+          return;
+        }
+
         if ($event.keyCode === 32 || $event.keyCode === 13) {
           return activate($event);
         }
