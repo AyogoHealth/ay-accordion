@@ -230,7 +230,7 @@ angular.module('ayAccordion', [])
 
       self.open = function() {
         $element.addClass('open');
-        $element[0].setAttribute('open', 'open');
+        $element[0].setAttribute('open', '');
 
         if ($element[0] === $element[0].parentNode.lastElementChild) {
           $element[0].scrollIntoView();
@@ -274,7 +274,7 @@ angular.module('ayAccordion', [])
           if (self.isOpen) {
             el.removeAttribute('hidden');
           } else {
-            el.setAttribute('hidden', 'hidden');
+            el.setAttribute('hidden', '');
           }
         });
       };
@@ -302,7 +302,7 @@ angular.module('ayAccordion', [])
         if ($element[0].hasAttribute('open')) {
           el.removeAttribute('hidden');
         } else {
-          el.setAttribute('hidden', 'hidden');
+          el.setAttribute('hidden', '');
         }
       };
 
