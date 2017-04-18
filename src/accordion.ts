@@ -267,7 +267,7 @@ angular.module('ayAccordion', [])
         }
 
         Array.prototype.forEach.call($element.children(), function(el) {
-          if (el.hasAttribute('ay-accordion-header')) {
+          if (el.hasAttribute('ay-accordion-header') || el.querySelector('[ay-accordion-header]')) {
             return;
           }
 
@@ -295,7 +295,7 @@ angular.module('ayAccordion', [])
       selfCtrl.rootCtrl = rootCtrl;
 
       var childCallback = function(el) {
-        if (el.hasAttribute('ay-accordion-header')) {
+        if (el.hasAttribute('ay-accordion-header') || el.querySelector('[ay-accordion-header]')) {
           return;
         }
 
