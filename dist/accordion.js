@@ -140,9 +140,7 @@ angular.module('ayAccordion', [])
                             cleanup();
                         }
                     }
-                    requestAnimationFrame(function () {
-                        tween();
-                    });
+                    tween();
                     function cleanup() {
                         forEach.call(measurements, function (m) {
                             style(m.el, 'transform-origin', '');
@@ -177,7 +175,7 @@ angular.module('ayAccordion', [])
                 self.isOpen = false;
                 self.open = function () {
                     $element.addClass('open');
-                    $element[0].setAttribute('open', 'open');
+                    $element[0].setAttribute('open', '');
                     if ($element[0] === $element[0].parentNode.lastElementChild) {
                         $element[0].scrollIntoView();
                     }
@@ -206,14 +204,14 @@ angular.module('ayAccordion', [])
                         self.open();
                     }
                     Array.prototype.forEach.call($element.children(), function (el) {
-                        if (el.hasAttribute('ay-accordion-header')) {
+                        if (el.hasAttribute('ay-accordion-header') || el.querySelector('[ay-accordion-header]')) {
                             return;
                         }
                         if (self.isOpen) {
                             el.removeAttribute('hidden');
                         }
                         else {
-                            el.setAttribute('hidden', 'hidden');
+                            el.setAttribute('hidden', '');
                         }
                     });
                 };
@@ -229,14 +227,14 @@ angular.module('ayAccordion', [])
             var rootCtrl = $ctrls[1];
             selfCtrl.rootCtrl = rootCtrl;
             var childCallback = function (el) {
-                if (el.hasAttribute('ay-accordion-header')) {
+                if (el.hasAttribute('ay-accordion-header') || el.querySelector('[ay-accordion-header]')) {
                     return;
                 }
                 if ($element[0].hasAttribute('open')) {
                     el.removeAttribute('hidden');
                 }
                 else {
-                    el.setAttribute('hidden', 'hidden');
+                    el.setAttribute('hidden', '');
                 }
             };
             Array.prototype.forEach.call($element.children(), childCallback);
@@ -283,6 +281,9 @@ angular.module('ayAccordion', [])
                 return activate($event);
             });
             $element.on('keydown', function ($event) {
+                if ($event['repeat']) {
+                    return;
+                }
                 if ($event.keyCode === 32 || $event.keyCode === 13) {
                     return activate($event);
                 }

@@ -19,7 +19,7 @@
  * IN THE SOFTWARE.
  */
 "use strict";
-require("./accordion");
 Object.defineProperty(exports, "__esModule", { value: true });
+require("./accordion");
 exports.default = "ayAccordion";
 //# sourceMappingURL=index.js.map
