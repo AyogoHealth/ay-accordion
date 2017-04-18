@@ -361,7 +361,7 @@ angular.module('ayAccordion', [])
       });
 
       $element.on('keydown', function($event) {
-        if ($event.repeat) {
+        if ($event['repeat']) {
           return;
         }
 
