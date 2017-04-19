@@ -204,6 +204,13 @@ angular.module('ayAccordion', [])
           self.blockClicks = false;
           self.root.style.minHeight = null;
 
+          var scrollingRoot = document['scrollingElement'] || document.body;
+          var pageBottom = scrollingRoot.scrollTop + scrollingRoot.clientHeight;
+          var lastChild = measurements.pop();
+          if (lastChild.initialDimensions.height !== lastChild.newDimensions.height && (pageBottom - lastChild.initialDimensions.bottom < lastChild.initialDimensions.height)) {
+            window.scrollBy(0, (lastChild.newDimensions.height - lastChild.initialDimensions.height));
+          }
+
           /* Invoke our callback function when done */
           $scope.$applyAsync(() => {
             cb();
@@ -235,10 +242,6 @@ angular.module('ayAccordion', [])
         Array.prototype.forEach.call($element.children(), function(el) {
           el.removeAttribute('hidden');
         });
-
-        if ($element[0] === $element[0].parentNode.lastElementChild) {
-          $element[0].scrollIntoView();
-        }
 
         self.isOpen = true;
         $scope.$applyAsync();
