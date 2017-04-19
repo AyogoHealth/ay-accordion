@@ -152,6 +152,12 @@ angular.module('ayAccordion', [])
                         });
                         self.blockClicks = false;
                         self.root.style.minHeight = null;
+                        var scrollingRoot = document['scrollingElement'] || document.body;
+                        var pageBottom = scrollingRoot.scrollTop + scrollingRoot.clientHeight;
+                        var lastChild = measurements.pop();
+                        if (lastChild.initialDimensions.height !== lastChild.newDimensions.height && (pageBottom - lastChild.initialDimensions.bottom < lastChild.initialDimensions.height)) {
+                            window.scrollBy(0, (lastChild.newDimensions.height - lastChild.initialDimensions.height));
+                        }
                         /* Invoke our callback function when done */
                         $scope.$applyAsync(function () {
                             cb();
@@ -176,9 +182,9 @@ angular.module('ayAccordion', [])
                 self.open = function () {
                     $element.addClass('open');
                     $element[0].setAttribute('open', '');
-                    if ($element[0] === $element[0].parentNode.lastElementChild) {
-                        $element[0].scrollIntoView();
-                    }
+                    Array.prototype.forEach.call($element.children(), function (el) {
+                        el.removeAttribute('hidden');
+                    });
                     self.isOpen = true;
                     $scope.$applyAsync();
                     self['onToggle']({ state: true });
@@ -203,23 +209,20 @@ angular.module('ayAccordion', [])
                     else {
                         self.open();
                     }
-                    Array.prototype.forEach.call($element.children(), function (el) {
-                        if (el.hasAttribute('ay-accordion-header') || el.querySelector('[ay-accordion-header]')) {
-                            return;
-                        }
-                        if (self.isOpen) {
-                            el.removeAttribute('hidden');
-                        }
-                        else {
-                            el.setAttribute('hidden', '');
-                        }
-                    });
                 };
                 self.toggle = function (cb) {
                     if (self.rootCtrl.blockClicks) {
                         return;
                     }
-                    self.rootCtrl.run(self.fn, cb);
+                    self.rootCtrl.run(self.fn, function () {
+                        Array.prototype.forEach.call($element.children(), function (el) {
+                            if (self.isOpen || el.hasAttribute('ay-accordion-header') || el.querySelector('[ay-accordion-header]')) {
+                                return;
+                            }
+                            el.setAttribute('hidden', '');
+                        });
+                        cb();
+                    });
                 };
             }],
         link: function ($scope, $element, $attrs, $ctrls) {
