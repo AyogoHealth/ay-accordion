@@ -1,3 +1,4 @@
+"use strict";
 /*! Copyright (c) 2016 Ayogo Health Inc.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -18,7 +19,6 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 require("./accordion");
 exports.default = "ayAccordion";

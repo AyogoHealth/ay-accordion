@@ -1,6 +1,6 @@
 {
   "name": "ay-accordion",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "copyright": "Copyright 2016 Ayogo Health Inc.",
   "license": "MIT",
   "homepage": "http://ayogo.com",
@@ -9,6 +9,7 @@
     "Adam Vernon <adam@akineticblog.com>",
     "Darryl Pogue <darryl@dpogue.ca>",
     "Onataze Messiri <onataze@gmail.com>",
+    "Sam Evanuk <samevanuk@gmail.com>",
     "Steven Stark <steven@stevenstark.com>"
   ],
   "description": "A mobile-friendly, jank-free accordion directive for Angular 1.x",
