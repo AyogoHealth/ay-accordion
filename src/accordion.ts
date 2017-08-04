@@ -260,6 +260,11 @@ angular.module('ayAccordion', [])
         $scope.$applyAsync();
         self['onToggle']({state: false});
 
+        Array.prototype.forEach.call($element.children(), function(el) {
+          if (!el.hasAttribute('ay-accordion-header') && !el.querySelector('[ay-accordion-header]')) {
+            el.setAttribute('hidden', '');
+          }
+        });
 
         if (self.rootCtrl.curPanel === self) {
           self.rootCtrl.curPanel = null;
