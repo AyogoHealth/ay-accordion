@@ -323,7 +323,7 @@ angular.module('ayAccordion', [])
           Array.prototype.forEach.call($element.children(), childCallback);
         });
 
-        observer.observe($element[0], { childList: true });
+        observer.observe($element[0], { childList: true, attributes: true });
 
         $element.on('$destroy', function() {
           observer.disconnect();
