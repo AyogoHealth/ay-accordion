@@ -316,29 +316,40 @@ angular.module('ayAccordion', [])
         }
       };
 
-      Array.prototype.forEach.call($element.children(), childCallback);
+      var attributeCallback = function(el) {
+        if (el.hasAttribute('ay-accordion-header') || el.querySelector('[ay-accordion-header]')) {
+          return;
+        }
 
+        // Open if "open" is either truthy or set to an empty string
+        const isOpen = $element[0].hasAttribute('open') && (!!$element[0].getAttribute('open') || $element[0].getAttribute('open') === '');
+
+        if (isOpen && !$element.hasClass('open')) {
+          selfCtrl.open();
+        } else if(!isOpen && $element.hasClass('open')) {
+          selfCtrl.close();
+        }
+      };
+
+      Array.prototype.forEach.call($element.children(), childCallback);
+      
       if ('MutationObserver' in window) {
-        var observer = new MutationObserver(function() {
+        var childObserver = new MutationObserver(function() {
           Array.prototype.forEach.call($element.children(), childCallback);
         });
 
-        observer.observe($element[0], { childList: true });
+        var attributeObserver = new MutationObserver(function() {
+          Array.prototype.forEach.call($element.children(), attributeCallback);
+        });
+
+        childObserver.observe($element[0], { childList: true });
+        attributeObserver.observe($element[0], { attributes: true});
 
         $element.on('$destroy', function() {
-          observer.disconnect();
+          childObserver.disconnect();
+          attributeObserver.disconnect();
         });
       }
-
-      $attrs.$observe('open', function(newval) {
-        if (newval || newval === "") {
-          if (!$element.hasClass('open')) {
-            selfCtrl.open();
-          }
-        } else if ($element.hasClass('open')) {
-          selfCtrl.close();
-        }
-      });
     }
   };
 })
