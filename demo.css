@@ -1,0 +1,166 @@
+/*! Copyright 2016 Ayogo Health Inc. */
+
+body {
+  font-family: caption, sans-serif;
+  margin: 0;
+  padding: 0;
+
+  color: #6b6b6b;
+  background: #f1f1f1;
+}
+
+a[href] {
+  color: #58c4e0;
+}
+
+a[href]:focus {
+  color: #ff0046;
+}
+
+h1, h2, h3 {
+  margin: 0;
+  font-weight: 300;
+  font-family: 'Fjalla One', serif;
+}
+
+h3 {
+  border-bottom: 1px solid #e5e5e5;
+  padding-top: 1rem;
+}
+
+
+header {
+  background: white;
+  box-shadow: 0 2px 6px -1px rgba(0,0,0,0.3);
+  padding: 1.1rem 1rem;
+}
+
+header h1 {
+  color: #ff0046;
+}
+
+header .gh-logo {
+  float: right;
+  text-decoration: none;
+  color: #6b6b6b;
+}
+
+.gh-logo svg {
+  height: 2rem;
+  width: 2rem;
+}
+
+@media (min-width: 600px) {
+  .gh-logo svg {
+    height: 3rem;
+    width: 3rem;
+  }
+
+  .gh-logo:after {
+    content: 'View on GitHub';
+    text-align: center;
+    display: block;
+    width: 4em;
+    font-size: 0.7em;
+  }
+}
+
+p.lead {
+  margin-top: 0;
+  font-size: 1.25em;
+}
+
+pre, code {
+  font-size: 16px;
+  color: #333333;
+  padding: 0.25rem;
+  background: white;
+}
+
+code {
+  display: inline-block;
+}
+
+pre {
+  overflow: auto;
+}
+
+dl dt {
+  font-size: 16px;
+  font-family: monospace;
+}
+
+[ay-accordion-root] {
+  margin: 0 0.5rem;
+}
+
+@media (min-width: 600px) {
+  [ay-accordion-root] {
+    margin: 0 2rem;
+  }
+}
+
+[ay-accordion] {
+  margin-top: 1rem;
+  overflow: hidden;
+  height: 2.5rem;
+  border-radius: 7px;
+  background: #fafafa;
+}
+
+[ay-accordion] > * {
+  padding: 0 1rem;
+}
+
+[ay-accordion][open] {
+  height: auto;
+}
+
+[ay-accordion-header] {
+  height: 2.5rem;
+  line-height: 2.5rem;
+  color: black;
+  cursor: pointer;
+}
+
+[ay-accordion-header]:not([aria-disabled="true"]):focus {
+  outline: 0 none;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.25) inset;
+}
+
+[ay-accordion-header]:not([aria-disabled="true"]):active {
+  box-shadow: none;
+}
+
+[ay-accordion-header]:not([aria-disabled="true"]):hover {
+  background: white;
+}
+
+[ay-accordion] [ay-accordion-header]:before {
+    content: '';
+    display: inline-block;
+    float: left;
+    border-left: 10px solid #58c4e0;
+    border-right: 10px solid transparent;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    margin-top: 0.6rem;
+    -ms-transform-origin: 5px 10px;
+    -webkit-transform-origin: 5px 10px;
+    transform-origin: 5px 10px;
+    -webkit-transition: -webkit-transform 0.25s ease-in-out;
+    transition: transform 0.25s ease-in-out;
+    will-change: transform;
+}
+
+[ay-accordion][open] [ay-accordion-header]:before {
+    -ms-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
+footer {
+  font-size: 0.8em;
+  margin-top: 1rem;
+  text-align: center;
+}

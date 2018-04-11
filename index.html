@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>ayAccordion</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fjalla+One">
+    <link rel="stylesheet" href="./demo.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+    <script src="./dist/accordion.js"></script>
+    <script>
+      angular.module('accordionDemo', ['ayAccordion']);
+    </script>
+  </head>
+  <body ng-app="accordionDemo">
+    <header>
+      <a class="gh-logo" title="View on GitHub" href="https://github.com/AyogoHealth/ay-accordion">
+        <svg viewBox="0 0 1024 1024"><title>View on GitHub</title><path d="M512 0C229.25 0 0 229.25 0 512c0 226.25 146.688 418.125 350.156 485.812 25.594 4.688 34.938-11.125 34.938-24.625 0-12.188-0.469-52.562-0.719-95.312C242 908.812 211.906 817.5 211.906 817.5c-23.312-59.125-56.844-74.875-56.844-74.875-46.531-31.75 3.53-31.125 3.53-31.125 51.406 3.562 78.47 52.75 78.47 52.75 45.688 78.25 119.875 55.625 149 42.5 4.654-33 17.904-55.625 32.5-68.375C304.906 725.438 185.344 681.5 185.344 485.312c0-55.938 19.969-101.562 52.656-137.406-5.219-13-22.844-65.094 5.062-135.562 0 0 42.938-13.75 140.812 52.5 40.812-11.406 84.594-17.031 128.125-17.219 43.5 0.188 87.312 5.875 128.188 17.281 97.688-66.312 140.688-52.5 140.688-52.5 28 70.531 10.375 122.562 5.125 135.5 32.812 35.844 52.625 81.469 52.625 137.406 0 196.688-119.75 240-233.812 252.688 18.438 15.875 34.75 47 34.75 94.75 0 68.438-0.688 123.625-0.688 140.5 0 13.625 9.312 29.562 35.25 24.562C877.438 930 1024 738.125 1024 512 1024 229.25 794.75 0 512 0z"></path></svg>
+      </a>
+      <h1>ayAccordion</h1>
+      <p class="lead">
+        A mobile-friendly, jank-free accordion directive for Angular 1.x
+      </p>
+    </header>
+
+    <div ay-accordion-root multiple>
+      <section ay-accordion open>
+        <h2 ay-accordion-header>Features</h2>
+        <div>
+          <ul>
+            <li>Keyboard accessible and screen-reader friendly
+            <li>Support for single/multiple expanded regions
+            <li>Smooth animation on desktop and mobile
+            <li>Per-section open/close events
+            <li>Supports IE 10+, Safari 6+, Edge, Chrome, Firefox, iOS 6+, and Android 4.4+
+          </ul>
+        </div>
+      </section>
+
+      <section ay-accordion>
+        <h2 ay-accordion-header>Usage</h2>
+        <div>
+          <p>To get started, install the package from npm: <code>npm install ay-accordion</code></p>
+
+          <h3>Basic Usage</h3>
+          <p>Add a script tag to your page to reference the accordion.js file:</p>
+          <pre><code>&lt;script src="node_modules/ay-accordion/dist/accordion.js"&gt;&lt;/script&gt;</code></pre>
+          <p>Reference the module in your Angular app's dependencies:</p>
+          <pre><code>angular.module(myApp, ['ayAccordion'])</code></pre>
+
+          <h3>ES5 with Browserify</h3>
+          <p>Install the browserify-ngannotate transform: <code>npm install browserify-ngannotate</code></p>
+          <p>Reference the module in your Angular app's dependencies:</p>
+          <pre><code>var ayAccordion = require('ay-accordion').default;
+
+angular.module(myApp, [ayAccordion])</code></pre>
+
+          <h3>ES6 / TypeScript</h3>
+          <p>Reference the module in your Angular app's dependencies:</p>
+          <pre><code>import ayAccordion from 'ay-accordion';
+
+angular.module(myApp, [ayAccordion])</code></pre>
+          <p>A TypeScript module definition is included.</p>
+        </div>
+      </section>
+
+
+      <section ay-accordion>
+        <h2 ay-accordion-header>Directives</h2>
+        <div>
+          <pre><code>&lt;div ay-accordion-root multiple&gt;
+  &lt;div ay-accordion open on-toggle="ctrl.accordionToggle(state)"&gt;
+    &lt;b ay-accordion-header&gt;Panel 1 (Click to open)&lt;/b&gt;
+    &lt;div&gt;
+      &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit.&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+          <h3>ayAccordionRoot</h3>
+          <p>This directive wraps the entire accordion, as well as any content below the accordion that needs to be pushed down when accordion sections open and close.</p>
+          <dl>
+            <dt>multiple</dt>
+            <dd>This attribute allows multiple accordion sections to be open at the same time (default is only a single section expanded at a time).</dd>
+          </dl>
+
+          <h3>ayAccordion</h3>
+          <p>This directive manages a single expanding/collapsing accordion section, including the title content shown when it is collapsed.</p>
+          <dl>
+            <dt>open</dt>
+            <dd>This attribute will make the section expanded by default. You can also use ng-open to set this attribute dynamically.</dd>
+
+            <dt>on-toggle</dt>
+            <dd>This attribute specifies a callback function to be run when the section is expanded or collapsed. The <em>state</em> argument is a boolean representing if the section is open.</dd>
+          </dl>
+
+          <h3>ayAccordionHeader</h3>
+          <p>This directive wraps the title of the accordion section, and attaches the event handlers to expand the section when clicked.</p>
+        </div>
+      </section>
+
+      <section ay-accordion>
+        <h2 ay-accordion-header>Styling</h2>
+        <div>
+          <p>For the accordion to expand/collapse as intended, you'll need to add something like the following to your stylesheet:</p>
+          <pre><code>[hidden] {
+    display: none;
+}
+
+[ay-accordion] {
+    overflow: hidden;
+    height: 30px;
+}
+
+[ay-accordion][open] {
+    height: auto;
+}</code></pre>
+        </div>
+      </section>
+
+      <section ay-accordion>
+        <h2 ay-accordion-header>Notes</h2>
+        <div>
+          <p>Released under the terms of the <a href="https://github.com/AyogoHealth/ay-accordion/blob/master/LICENCE">MIT License</a>.</p>
+
+          <p>This project would not have happened without the knowledge and support of <a href="https://github.com/AdaRoseEdwards">Ada Rose Edwards</a>, in particular the following two posts:</p>
+          <ul>
+            <li><a href="https://ada.is/blog/2015/04/26/animation-perf/">Animation Performance</a></li>
+            <li><a href="https://ada.is/blog/2015/04/29/animation-perf-follow-up/">Animation Performance - Follow Up</a></li>
+          </ul>
+        </div>
+      </section>
+
+      <footer>
+        Copyright &copy; 2016 <a href="http://ayogo.com">Ayogo Health Inc.</a>
+        <br>
+        MIT Licence
+      </footer>
+    </div>
+  </body>
+</html>
