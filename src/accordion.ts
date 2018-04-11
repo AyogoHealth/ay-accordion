@@ -23,6 +23,7 @@
 interface IPanelController {
   rootCtrl : any;
   isOpen : boolean;
+  isDisabled : boolean;
   open : () => void;
   close : () => void;
   toggle : (cb : any) => void;
@@ -234,6 +235,7 @@ angular.module('ayAccordion', [])
 
       self.rootCtrl = null;
       self.isOpen = false;
+      self.isDisabled = false;
 
       self.open = function() {
         $element.addClass('open');
@@ -303,6 +305,7 @@ angular.module('ayAccordion', [])
       var rootCtrl = $ctrls[1];
 
       selfCtrl.rootCtrl = rootCtrl;
+      selfCtrl.isDisabled = $element[0].hasAttribute('disabled');
 
       var childCallback = function(el) {
         if (el.hasAttribute('ay-accordion-header') || el.querySelector('[ay-accordion-header]')) {
@@ -324,6 +327,8 @@ angular.module('ayAccordion', [])
         // Open if "open" is either truthy or set to an empty string
         const isOpen = $element[0].hasAttribute('open') && (!!$element[0].getAttribute('open') || $element[0].getAttribute('open') === '');
 
+        selfCtrl.isDisabled = $element[0].hasAttribute('disabled');
+
         if (isOpen && !$element.hasClass('open')) {
           selfCtrl.open();
         } else if(!isOpen && $element.hasClass('open')) {
@@ -332,7 +337,7 @@ angular.module('ayAccordion', [])
       };
 
       Array.prototype.forEach.call($element.children(), childCallback);
-      
+
       if ('MutationObserver' in window) {
         var childObserver = new MutationObserver(function() {
           Array.prototype.forEach.call($element.children(), childCallback);
@@ -377,12 +382,22 @@ angular.module('ayAccordion', [])
 
       $scope.$watch(() => $ctrl.isOpen, () => updateState());
 
+      $scope.$watch(() => $ctrl.isDisabled, (newval, oldval) => {
+        if (newval) {
+          $element[0].setAttribute('aria-disabled', 'true');
+        } else if (oldval) {
+          $element[0].removeAttribute('aria-disabled');
+        }
+      });
+
       $element.on('click', function($event) {
-        return activate($event);
+        if (!$ctrl.isDisabled) {
+          return activate($event);
+        }
       });
 
       $element.on('keydown', function($event) {
-        if ($event['repeat']) {
+        if ($ctrl.isDisabled || $event['repeat']) {
           return;
         }
 
