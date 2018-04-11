@@ -179,6 +179,7 @@ angular.module('ayAccordion', [])
                 var self = this;
                 self.rootCtrl = null;
                 self.isOpen = false;
+                self.isDisabled = false;
                 self.open = function () {
                     $element.addClass('open');
                     $element[0].setAttribute('open', '');
@@ -234,6 +235,7 @@ angular.module('ayAccordion', [])
             var selfCtrl = $ctrls[0];
             var rootCtrl = $ctrls[1];
             selfCtrl.rootCtrl = rootCtrl;
+            selfCtrl.isDisabled = $element[0].hasAttribute('disabled');
             var childCallback = function (el) {
                 if (el.hasAttribute('ay-accordion-header') || el.querySelector('[ay-accordion-header]')) {
                     return;
@@ -251,6 +253,7 @@ angular.module('ayAccordion', [])
                 }
                 // Open if "open" is either truthy or set to an empty string
                 var isOpen = $element[0].hasAttribute('open') && (!!$element[0].getAttribute('open') || $element[0].getAttribute('open') === '');
+                selfCtrl.isDisabled = $element[0].hasAttribute('disabled');
                 if (isOpen && !$element.hasClass('open')) {
                     selfCtrl.open();
                 }
@@ -293,11 +296,21 @@ angular.module('ayAccordion', [])
                 return false;
             }
             $scope.$watch(function () { return $ctrl.isOpen; }, function () { return updateState(); });
+            $scope.$watch(function () { return $ctrl.isDisabled; }, function (newval, oldval) {
+                if (newval) {
+                    $element[0].setAttribute('aria-disabled', 'true');
+                }
+                else if (oldval) {
+                    $element[0].removeAttribute('aria-disabled');
+                }
+            });
             $element.on('click', function ($event) {
-                return activate($event);
+                if (!$ctrl.isDisabled) {
+                    return activate($event);
+                }
             });
             $element.on('keydown', function ($event) {
-                if ($event['repeat']) {
+                if ($ctrl.isDisabled || $event['repeat']) {
                     return;
                 }
                 if ($event.keyCode === 32 || $event.keyCode === 13) {
