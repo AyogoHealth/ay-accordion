@@ -63,10 +63,6 @@ export class AyAccordion extends HTMLElement {
       Array.prototype.forEach.call(this.children, (el) => this.childCallback(el));
     });
 
-    if(this.hasAttribute('disabled')) {
-      this.setAttribute('aria-disabled', 'true');
-    }
-
     childObserver.observe(this, { childList: true })
 
     const handleToggle = () => {
