@@ -74,25 +74,31 @@ export class AyAccordion extends HTMLElement {
         return;
       }
       if (!this.open) {
-        this.toggleOpen();
+        this.open = true;
       } else {
-        this.toggleClose();
+       this.open = false
       }
     }
 
     this.addEventListener('toggle', handleToggle);
   }
 
-
-
   disconnectedCallback() {
     if (accordionEventMap.has(this)){
       this.removeEventListener('toggle', accordionEventMap.get(this));
     }
+    accordionEventMap.delete(this);
   }
 
-  //Do we need to pass 'this' to it ?
-  get open(){
+  set open(value: boolean) {
+    if(value) {
+      this.toggleOpen();
+    } else {
+      this.toggleClose();
+    }
+  }
+
+  get open(): boolean{
     return this.hasAttribute('open');
   }
 

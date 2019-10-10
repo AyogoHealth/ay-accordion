@@ -20,23 +20,20 @@ const accordionHeaderPressMap : WeakMap<HTMLElement, (event: KeyboardEvent) => v
 export class AyAccordionHeader extends HTMLElement {
 
   connectedCallback() {
-    const ayAccordionElem = this.closest('ay-accordion') as HTMLElement;
 
     this.setAttribute('role', 'button');
     this.setAttribute('tabIndex', '0');
 
 
     const toggleOnClick = () => {
-      let toggleEvent = new Event('toggle');
-      ayAccordionElem.dispatchEvent(toggleEvent);
+      const ayAccordionElem = this.closest('ay-accordion') as HTMLElement;
+      ayAccordionElem.dispatchEvent(new Event('toggle'));
     };
 
     const toggleOnPress = (event: KeyboardEvent) => {
-      let toggleEvent = new Event('toggle');
+      const ayAccordionElem = this.closest('ay-accordion') as HTMLElement;
       if (event.keyCode === 32 || event.keyCode === 13) {
-        ayAccordionElem.dispatchEvent(toggleEvent);
-      } else {
-        return;
+        ayAccordionElem.dispatchEvent(new Event('toggle'));
       }
     };
 
@@ -58,6 +55,8 @@ export class AyAccordionHeader extends HTMLElement {
     if (accordionHeaderClickMap.has(this)){
       this.removeEventListener('click', accordionHeaderClickMap.get(this));
     }
+    accordionHeaderClickMap.delete(this);
+    accordionHeaderPressMap.delete(this);
   }
 }
 
