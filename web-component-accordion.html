@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>ayAccordion</title>
+    <link rel="stylesheet" href="./web-accordion.css"></link>
+    <script src="./dist/web-component/index.js"></script>
+  </head>
+  <body>
+    <h1>Accordion Web Component</h1>
+    <ay-accordion>
+      <ay-accordion-header>
+        Accordion 1
+      </ay-accordion-header>
+      <p> Accordion with no disabled attributed</p>
+    </ay-accordion>
+    <ay-accordion open disabled>
+      <ay-accordion-header>
+        Accrodion 2
+      </ay-accordion-header>
+      <p>Accordion with open and disabled attributes</p>
+    </ay-accordion>
+    <ay-accordion disabled>
+      <ay-accordion-header>
+        Accordion 3 (closed and disabled accordion)
+      </ay-accordion-header>
+      <p>Accordion with only disabled attribute</p>
+    </ay-accordion>
+  </body>
+</html>
+
