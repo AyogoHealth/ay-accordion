@@ -28,7 +28,6 @@ export class AyAccordionHeader extends HTMLElement {
 
     const toggleOnClick = () => {
       let toggleEvent = new Event('toggle');
-      console.log('dispatching click event from header');
       ayAccordionElem.dispatchEvent(toggleEvent);
     };
 
