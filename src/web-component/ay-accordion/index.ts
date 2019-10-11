@@ -27,26 +27,6 @@ const accordionEventMap : WeakMap<HTMLElement, () => void> = new WeakMap();
 export class AyAccordion extends HTMLElement {
   //Add event listeners for the dispatched events from the ay-acc-hed
 
-  toggleOpen() {
-    this.setAttribute('open', '');
-    this.setAttribute('aria-expanded', 'true');
-    Array.prototype.forEach.call(this.children, function (el) {
-      if(!(el.tagName === 'AY-ACCORDION-HEADER')) {
-        el.removeAttribute('hidden');
-      }
-    });
-  }
-
-  toggleClose() {
-    this.removeAttribute('open');
-    this.setAttribute('aria-expanded', 'false');
-    Array.prototype.forEach.call(this.children, function(el) {
-      if(!(el.tagName === 'AY-ACCORDION-HEADER')) {
-        el.setAttribute('hidden', '');
-      }
-    });
-  }
-
   childCallback(el) {
     if(el.tagName === 'AY-ACCORDION-HEADER') {
       return;
@@ -58,6 +38,38 @@ export class AyAccordion extends HTMLElement {
     }
   }
 
+  attributeChangedCallback(name, oldValue, newValue) {
+    if(name === 'disabled') {
+      if(this.hasAttribute('disabled')) {
+        this.querySelectorAll('ay-accordion-header').forEach( (el) => {
+          el.setAttribute('aria-disabled', 'true');
+        });
+      } else {
+        this.querySelectorAll('ay-accordion-header').forEach( (el) => {
+          el.setAttribute('aria-disabled', 'false');
+        });
+      }
+    }
+
+    if(name === 'open') {
+      if(this.open) {
+        this.setAttribute('aria-expanded', 'true');
+        Array.prototype.forEach.call(this.children, function (el) {
+          if(!(el.tagName === 'AY-ACCORDION-HEADER')) {
+            el.removeAttribute('hidden');
+          }
+        });
+      } else {
+        this.setAttribute('aria-expanded', 'false');
+        Array.prototype.forEach.call(this.children, function(el) {
+          if(!(el.tagName === 'AY-ACCORDION-HEADER')) {
+            el.setAttribute('hidden', '');
+          }
+        });
+      }
+  }
+}
+
   connectedCallback() {
     const childObserver = new MutationObserver(() => {
       Array.prototype.forEach.call(this.children, (el) => this.childCallback(el));
@@ -65,15 +77,17 @@ export class AyAccordion extends HTMLElement {
 
     childObserver.observe(this, { childList: true })
 
+    if(this.hasAttribute('open')){
+      this.setAttribute('aria-expanded', 'true');
+    } else {
+      this.setAttribute('aria-expanded', 'false');
+    }
+
     const handleToggle = () => {
       if(this.hasAttribute('disabled')) {
         return;
       }
-      if (!this.open) {
-        this.open = true;
-      } else {
-       this.open = false
-      }
+      this.open = !this.open;
     }
 
     this.addEventListener('toggle', handleToggle);
@@ -88,14 +102,18 @@ export class AyAccordion extends HTMLElement {
 
   set open(value: boolean) {
     if(value) {
-      this.toggleOpen();
+      this.setAttribute('open', '');
     } else {
-      this.toggleClose();
+      this.removeAttribute('open');
     }
   }
 
   get open(): boolean{
     return this.hasAttribute('open');
+  }
+
+  static get observedAttributes() {
+    return ['open', 'disabled'];
   }
 
 }
