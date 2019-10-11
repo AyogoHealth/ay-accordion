@@ -30,21 +30,11 @@ export class AyAccordion extends HTMLElement {
   toggleOpen() {
     this.setAttribute('open', '');
     this.setAttribute('aria-expanded', 'true');
-    Array.prototype.forEach.call(this.children, function (el) {
-      if(!(el.tagName === 'AY-ACCORDION-HEADER')) {
-        el.removeAttribute('hidden');
-      }
-    });
   }
 
   toggleClose() {
     this.removeAttribute('open');
     this.setAttribute('aria-expanded', 'false');
-    Array.prototype.forEach.call(this.children, function(el) {
-      if(!(el.tagName === 'AY-ACCORDION-HEADER')) {
-        el.setAttribute('hidden', '');
-      }
-    });
   }
 
   childCallback(el) {
@@ -58,12 +48,48 @@ export class AyAccordion extends HTMLElement {
     }
   }
 
+  attributeChangedCallback(name, oldValue, newValue) {
+    if(name === 'disabled') {
+      if(this.hasAttribute('disabled')) {
+        this.querySelectorAll('ay-accordion-header').forEach( (el) => {
+          el.setAttribute('aria-disabled', 'true');
+        });
+      } else {
+        this.querySelectorAll('ay-accordion-header').forEach( (el) => {
+          el.setAttribute('aria-disabled', 'false');
+        });
+      }
+    }
+
+    if(name === 'open') {
+      if(this.open) {
+        Array.prototype.forEach.call(this.children, function (el) {
+          if(!(el.tagName === 'AY-ACCORDION-HEADER')) {
+            el.removeAttribute('hidden');
+          }
+        });
+      } else {
+        Array.prototype.forEach.call(this.children, function(el) {
+          if(!(el.tagName === 'AY-ACCORDION-HEADER')) {
+            el.setAttribute('hidden', '');
+          }
+        });
+      }
+  }
+}
+
   connectedCallback() {
     const childObserver = new MutationObserver(() => {
       Array.prototype.forEach.call(this.children, (el) => this.childCallback(el));
     });
 
     childObserver.observe(this, { childList: true })
+
+    if(this.hasAttribute('open')){
+      this.setAttribute('aria-expanded', 'true');
+    } else {
+      this.setAttribute('aria-expanded', 'false');
+    }
 
     const handleToggle = () => {
       if(this.hasAttribute('disabled')) {
@@ -72,7 +98,7 @@ export class AyAccordion extends HTMLElement {
       if (!this.open) {
         this.open = true;
       } else {
-       this.open = false
+       this.open = false;
       }
     }
 
@@ -96,6 +122,10 @@ export class AyAccordion extends HTMLElement {
 
   get open(): boolean{
     return this.hasAttribute('open');
+  }
+
+  static get observedAttributes() {
+    return ['open', 'disabled'];
   }
 
 }

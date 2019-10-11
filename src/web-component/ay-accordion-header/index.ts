@@ -24,8 +24,12 @@ export class AyAccordionHeader extends HTMLElement {
     this.setAttribute('role', 'button');
     this.setAttribute('tabIndex', '0');
 
-    if(this.closest('ay-accordion').hasAttribute('disabled')) {
+    const ayAccordionElem = this.closest('ay-accordion') as HTMLElement;
+
+    if(ayAccordionElem.hasAttribute('disabled')){
       this.setAttribute('aria-disabled', 'true');
+    } else {
+      this.setAttribute('aria-disabled', 'false');
     }
 
     const toggleOnClick = () => {
