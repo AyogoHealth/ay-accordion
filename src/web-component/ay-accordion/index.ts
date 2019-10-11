@@ -87,11 +87,7 @@ export class AyAccordion extends HTMLElement {
       if(this.hasAttribute('disabled')) {
         return;
       }
-      if (!this.open) {
-        this.open = true;
-      } else {
-       this.open = false;
-      }
+      this.open = !this.open;
     }
 
     this.addEventListener('toggle', handleToggle);
@@ -108,7 +104,7 @@ export class AyAccordion extends HTMLElement {
     if(value) {
       this.setAttribute('open', '');
     } else {
-      this.setAttribute('open', 'false');
+      this.removeAttribute('open');
     }
   }
 
