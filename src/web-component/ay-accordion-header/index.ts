@@ -1,6 +1,7 @@
-// Copyright 2019 Ayogo Health Inc
-
+/*! Copyright 2019 Ayogo Health Inc. */
 /**
+ *
+ *
  * ay-accordion-header acts as a button for its first parent ay-accordion element thereby enabling the toggle functionality
  *
  * For example:
@@ -26,7 +27,7 @@ export class AyAccordionHeader extends HTMLElement {
 
     const ayAccordionElem = this.closest('ay-accordion') as HTMLElement;
 
-    if(ayAccordionElem.hasAttribute('disabled')){
+    if (ayAccordionElem.hasAttribute('disabled')){
       this.setAttribute('aria-disabled', 'true');
     } else {
       this.setAttribute('aria-disabled', 'false');
