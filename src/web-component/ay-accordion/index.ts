@@ -27,16 +27,6 @@ const accordionEventMap : WeakMap<HTMLElement, () => void> = new WeakMap();
 export class AyAccordion extends HTMLElement {
   //Add event listeners for the dispatched events from the ay-acc-hed
 
-  toggleOpen() {
-    this.setAttribute('open', '');
-    this.setAttribute('aria-expanded', 'true');
-  }
-
-  toggleClose() {
-    this.removeAttribute('open');
-    this.setAttribute('aria-expanded', 'false');
-  }
-
   childCallback(el) {
     if(el.tagName === 'AY-ACCORDION-HEADER') {
       return;
@@ -63,12 +53,14 @@ export class AyAccordion extends HTMLElement {
 
     if(name === 'open') {
       if(this.open) {
+        this.setAttribute('aria-expanded', 'true');
         Array.prototype.forEach.call(this.children, function (el) {
           if(!(el.tagName === 'AY-ACCORDION-HEADER')) {
             el.removeAttribute('hidden');
           }
         });
       } else {
+        this.setAttribute('aria-expanded', 'false');
         Array.prototype.forEach.call(this.children, function(el) {
           if(!(el.tagName === 'AY-ACCORDION-HEADER')) {
             el.setAttribute('hidden', '');
@@ -114,9 +106,9 @@ export class AyAccordion extends HTMLElement {
 
   set open(value: boolean) {
     if(value) {
-      this.toggleOpen();
+      this.setAttribute('open', '');
     } else {
-      this.toggleClose();
+      this.setAttribute('open', 'false');
     }
   }
 
