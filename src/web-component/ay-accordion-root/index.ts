@@ -1,12 +1,9 @@
 /*! Copyright 2019 Ayogo Health Inc. */
 /**
- * ay-accordion is a web-component that enables hiding and showing of its child nodes by the use of click handlers
- * It must have an ay-accordion-header element as child and this acts as a button for toggling ay-accordion.
+ * ay-accordion-root is a web-component which wraps the ay-accordion elements as its children.
  *
- * ay-accordion can take on the following attributes
- * 1) open - If open exists then the children will not be hidden
- * 2) disable - If disable is present then the toggling functionality will not work however the existence of open attribute
- *    will still be acknowledged.
+ * ay-accordion-root can take on the following attributes
+ * multiple: This attribute allows multiple accordion sections to be open at the same time (default is only a single section expanded at a time).
  *
  * For example:
  * ```
@@ -98,7 +95,7 @@ function run (fn, accordion : HTMLElement) {
   });
 
 
-  var duration = 10000; // In milliseconds
+  var duration = 100; // In milliseconds
   var t = 1;
 
   function tween() {
@@ -166,8 +163,6 @@ function run (fn, accordion : HTMLElement) {
 }
 
 export class AyAccordionRoot extends HTMLElement {
-  connectedCallback() {
-  }
 
 }
 
