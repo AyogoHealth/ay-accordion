@@ -22,6 +22,8 @@
  *
  */
 
+ import { run } from '../ay-accordion-root/index'
+
 const accordionEventMap: WeakMap<HTMLElement, () => void> = new WeakMap();
 
 export class AyAccordion extends HTMLElement {
@@ -87,7 +89,10 @@ export class AyAccordion extends HTMLElement {
       if (this.hasAttribute('disabled')) {
         return;
       }
-      this.open = !this.open;
+      run(() => {
+        this.open = !this.open;
+      }, this );
+
     };
 
     this.addEventListener('toggle', handleToggle);
