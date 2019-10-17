@@ -42,9 +42,9 @@ function run (fn, accordion : HTMLElement) {
 
   if(!root.hasAttribute('multiple')) {
     //Close existing panels if needed
-    root.querySelectorAll('ay-accordion').forEach((accordion) => {
-      if(accordion.hasAttribute('open')) {
-        accordion.removeAttribute('open');
+    root.querySelectorAll('ay-accordion').forEach((acc) => {
+      if(acc.hasAttribute('open') && acc != accordion) {
+        acc.removeAttribute('open');
       }
     });
   }
