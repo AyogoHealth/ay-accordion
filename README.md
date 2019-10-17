@@ -26,7 +26,7 @@ To get started, install the package from npm: `npm install ay-accordion`.
 Add a script tag to your page to reference the accordion.js file:
 
 ```html
-<script src="node_modules/ay-accordion/dist/web-component/index.js"></script>
+<script src="node_modules/ay-accordion/dist/index.js"></script>
 ```
 
 Web Components
