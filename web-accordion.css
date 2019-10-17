@@ -24,7 +24,7 @@ dl dt {
 }
 
 h1, h2, h3 {
-  margin: 16px;
+  margin: 0;
   font-weight: 300;
   font-family: 'Fjalla One', serif;
 }
@@ -98,9 +98,9 @@ ay-accordion ay-accordion-header:before {
 }
 
 ay-accordion[open] ay-accordion-header:before {
-    -ms-transform: rotate(90deg);
-    -webkit-transform: rotate(90deg);
-    transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
 }
 
 .container {
@@ -108,7 +108,6 @@ ay-accordion[open] ay-accordion-header:before {
 }
 
 ay-accordion-header {
-  height: 2.5rem;
   line-height: 1.5rem;
   color: black;
   cursor: pointer;
@@ -121,7 +120,6 @@ ay-accordion-header {
 ay-accordion-header:focus{
   outline: none;
 }
-
 
 footer {
   font-size: 0.8em;
