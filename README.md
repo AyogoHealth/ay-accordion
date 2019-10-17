@@ -1,9 +1,9 @@
 ayAccordion
 ===========
 
-A mobile-friendly, jank-free accordion directive for Angular 1.x.
+A mobile friendly, web component based jank free accordion
 
-<small>Copyright © 2016 Ayogo Health Inc.</small>
+<small>Copyright © 2019 Ayogo Health Inc.</small>
 
 
 Features
@@ -13,7 +13,7 @@ Features
 * Support for single/multiple expanded regions
 * Smooth animation on desktop and mobile
 * Per-section open/close events
-* Supports IE 10+, Safari 6+, Edge, Chrome, Firefox, iOS 6+, and Android 4.4+
+* Works with browsers supporting ES6 and web components
 
 
 Usage
@@ -26,101 +26,42 @@ To get started, install the package from npm: `npm install ay-accordion`.
 Add a script tag to your page to reference the accordion.js file:
 
 ```html
-<script src="node_modules/ay-accordion/dist/accordion.js"></script>
+<script src="node_modules/ay-accordion/dist/web-component/index.js"></script>
 ```
 
-Reference the module in your Angular app's dependencies:
-
-```javascript
-angular.module(myApp, ['ayAccordion'])
-```
-
-### ES5 with Browserify
-
-Install the browserify-ngannotate transform:
-`npm install browserify-ngannotate`
-
-Reference the module in your Angular app's dependencies:
-
-```javascript
-var ayAccordion = require('ay-accordion').default;
-
-angular.module(myApp, [ayAccordion])
-```
-
-### ES6 / TypeScript
-Reference the module in your Angular app's dependencies:
-
-```javascript
-import ayAccordion from 'ay-accordion';
-
-angular.module(myApp, [ayAccordion])
-```
-
-A TypeScript module definition is included.
-
-
-Directives
+Web Components
 ----------
 
 ```html
-<div ay-accordion-root multiple>
-  <div ay-accordion open on-toggle="ctrl.accordionToggle(state)">
-    <b ay-accordion-header>Panel 1 (Click to open)</b>
+<ay-accordion-root multiple>
+  <ay-accordion open>
+    <ay-accordion-header>Panel 1 (Click to open)</ay-accordion-header>
     <div>
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
     </div>
-  </div>
-</div>
+  </ay-accordion>
+</ay-accordion-root>
 ```
 
 
-### ayAccordionRoot
+### ay-accordion-root
 
-This directive wraps the entire accordion, as well as any content below the
-accordion that needs to be pushed down when accordion sections open and close.
+This web component wraps the entire accordion, as well as any content below the accordion that needs to be pushed down when accordion sections open and close.
 
 * `multiple`: This attribute allows multiple accordion sections to be open at
   the same time (default is only a single section expanded at a time).
 
-### ayAccordion
+### ay-accordion
 
-This directive manages a single expanding/collapsing accordion section,
-including the title content shown when it is collapsed.
+TThis web component manages a single expanding/collapsing accordion section, including the title content shown when it is collapsed.
 
-* `open`: This attribute will make the section expanded by default. You can
-  also use `ng-open` to set this attribute dynamically.
+* `open`: This attribute will make the section expanded by default.
 
-* `on-toggle`: This attribute specifies a callback function to be run when the
-  section is expanded or collapsed. The `state` argument is a boolean
-  representing if the section is open.
+* `disabled`: This attribute will disable the open/close ability of the accordion. The accordion will still maintain its original state open/close.
 
-### ayAccordionHeader
+### ay-accordion-header
 
-This directive wraps the title of the accordion section, and attaches the event
-handlers to expand the section when clicked.
-
-
-Styling
--------
-
-For the accordion to expand/collapse as intended, you'll need to add something
-like the following to your stylesheet:
-
-```css
-[hidden] {
-    display: none;
-}
-
-[ay-accordion] {
-    overflow: hidden;
-    height: 30px;
-}
-
-[ay-accordion][open] {
-    height: auto;
-}
-```
+This web component wraps the title of the accordion section, and attaches the event handlers to expand the section when clicked.
 
 
 Notes
