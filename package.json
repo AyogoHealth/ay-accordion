@@ -37,7 +37,7 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json && rollup dist/index.js -n ayAccordion -c rollup.config.js -o dist/index.js",
-    "version": "npm run dist && git add -A dist",
+    "version": "npm run build && git add -A dist",
     "postversion": "git push && git push --tags"
   }
 }
