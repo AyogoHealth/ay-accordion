@@ -1,0 +1,128 @@
+ay-accordion {
+  display: block;
+}
+body {
+  font-family: caption, sans-serif;
+  margin: 0;
+  padding: 0;
+
+  color: #6b6b6b;
+  background: #f1f1f1;
+}
+
+a[href] {
+  color: #58c4e0;
+}
+
+a[href]:focus {
+  color: #ff0046;
+}
+
+dl dt {
+  font-size: 16px;
+  font-family: monospace;
+}
+
+h1, h2, h3 {
+  margin: 0;
+  font-weight: 300;
+  font-family: 'Fjalla One', serif;
+}
+
+h3 {
+  border-bottom: 1px solid #e5e5e5;
+  padding-top: 1rem;
+}
+
+p.lead {
+  margin-top: 0;
+  font-size: 1.25em;
+}
+
+pre, code {
+  font-size: 16px;
+  color: #333333;
+  padding: 0.25rem;
+  background: white;
+  display: inline-block;
+}
+
+header {
+  background: white;
+  box-shadow: 0 2px 6px -1px rgba(0,0,0,0.3);
+  padding: 1.1rem 1rem;
+}
+
+header h1 {
+  color: #ff0046;
+}
+
+header .gh-logo {
+  float: right;
+  text-decoration: none;
+  color: #6b6b6b;
+}
+
+.gh-logo svg {
+  height: 2rem;
+  width: 2rem;
+}
+
+ay-accordion-root {
+  margin: 0 2rem;
+}
+
+ay-accordion {
+  margin-top: 1rem;
+  overflow: hidden;
+  padding: 10px;
+  border-radius: 7px;
+  background: #fafafa;
+}
+
+ay-accordion ay-accordion-header:before {
+  content: '';
+  display: inline-block;
+  /* float: left; */
+  border-left: 10px solid #58c4e0;
+  border-right: 10px solid transparent;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  margin-top: 0.6rem;
+  -ms-transform-origin: 5px 10px;
+  -webkit-transform-origin: 5px 10px;
+  transform-origin: 5px 10px;
+  -webkit-transition: -webkit-transform 0.25s ease-in-out;
+  transition: transform 0.25s ease-in-out;
+  will-change: transform;
+}
+
+ay-accordion[open] ay-accordion-header:before {
+  -ms-transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+
+.container {
+  margin: 0px 20px;
+}
+
+ay-accordion-header {
+  line-height: 1.5rem;
+  color: black;
+  cursor: pointer;
+  margin: 0;
+  font-weight: 300;
+  font-family: 'Fjalla One', serif;
+  font-size: 24px;
+}
+
+ay-accordion-header:focus{
+  outline: none;
+}
+
+footer {
+  font-size: 0.8em;
+  margin-top: 1rem;
+  text-align: center;
+}
