@@ -22,18 +22,17 @@
   "main": "dist/index.js",
   "module": "dist/index.es6.js",
   "typings": "dist/index.d.ts",
-  "dependencies": {
-    "@typescript-eslint/parser": "^2.3.3",
-    "rollup": "^1.23.1",
+  "dependencies": {},
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.27.0",
+    "@typescript-eslint/parser": "^2.27.0",
+    "eslint": "^6.8.0",
+    "eslint-plugin-header": "^3.0.0",
+    "rollup": "^2.3.3",
     "rollup-plugin-cleanup": "^3.1.1",
     "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-sourcemaps": "^0.4.2"
-  },
-  "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^2.3.3",
-    "eslint": "^6.5.1",
-    "eslint-plugin-header": "^3.0.0",
-    "typescript": "^3.6.4"
+    "rollup-plugin-sourcemaps": "^0.5.0",
+    "typescript": "^3.8.3"
   },
   "scripts": {
     "build": "tsc -p tsconfig.json && rollup dist/index.js -n ayAccordion -c rollup.config.js -o dist/index.js",
