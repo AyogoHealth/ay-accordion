@@ -1,4 +1,4 @@
-/*! Copyright 2019 Ayogo Health Inc. */
+/*! Copyright 2020 Ayogo Health Inc. */
 /**
  * ay-accordion-root is a web-component which wraps the ay-accordion elements as its children.
  *
@@ -20,6 +20,7 @@
  * @name ay-accordion-root
  *
  */
+const useClipPath = window.CSS && window.CSS.supports && window.CSS.supports('clip-path', 'inset(0px 0px 0px 0px)');
 function run(fn, accordion) {
     let root = accordion.closest('ay-accordion-root');
     let elementsToWatch = Array.prototype.filter.call(root.childNodes, function (el) {
@@ -51,12 +52,16 @@ function run(fn, accordion) {
             x: m.initialDimensions.width / m.newDimensions.width,
             y: m.initialDimensions.height / m.newDimensions.height
         };
+        m.clipSize = {
+            x: m.newDimensions.width - m.initialDimensions.width,
+            y: m.newDimensions.height - m.initialDimensions.height
+        };
         m.newOffset = {
             x: m.initialDimensions.left - m.newDimensions.left,
             y: m.initialDimensions.top - m.newDimensions.top
         };
         m.el.style.transformOrigin = "0 0";
-        m.el.style.willChange = 'transform';
+        m.el.style.willChange = useClipPath ? 'transform, clip-path' : 'transform';
         m.children = [];
         // Set the grandchildren to the inverse transform
         if (m.initialDimensions.height !== m.newDimensions.height ||
@@ -64,20 +69,22 @@ function run(fn, accordion) {
             m.children = Array.prototype.filter.call(m.el.childNodes, function (el) {
                 return el.nodeType === 1;
             });
-            Array.prototype.forEach.call(m.children, function (el) {
-                var elDimensions = el.getBoundingClientRect();
-                var offsetFromParent = {
-                    x: m.newDimensions.left - elDimensions.left,
-                    y: m.newDimensions.top - elDimensions.top
-                };
-                var origin = offsetFromParent.x + 'px ';
-                origin += offsetFromParent.y + 'px';
-                el.style.transformOrigin = origin;
-                el.style.willChange = 'transform';
-            });
+            if (!useClipPath) {
+                Array.prototype.forEach.call(m.children, function (el) {
+                    var elDimensions = el.getBoundingClientRect();
+                    var offsetFromParent = {
+                        x: m.newDimensions.left - elDimensions.left,
+                        y: m.newDimensions.top - elDimensions.top
+                    };
+                    var origin = offsetFromParent.x + 'px ';
+                    origin += offsetFromParent.y + 'px';
+                    el.style.transformOrigin = origin;
+                    el.style.willChange = 'transform';
+                });
+            }
         }
     });
-    var duration = 100; // In milliseconds
+    var duration = 150; // In milliseconds
     var t = 1;
     function tween() {
         Array.prototype.forEach.call(measurements, function (m) {
@@ -91,16 +98,25 @@ function run(fn, accordion) {
             var tScaleY = 1 + (m.newScale.y - 1) * t;
             var tOffsetX = m.newOffset.x * t;
             var tOffsetY = m.newOffset.y * t;
+            var tClipX = m.clipSize.x * t;
+            var tClipY = m.clipSize.y * t;
             var transform = 'translate(';
             transform += tOffsetX + 'px, ';
             transform += tOffsetY + 'px) ';
-            transform += 'scale(' + tScaleX + ',' + tScaleY + ') ';
+            if (!useClipPath) {
+                transform += 'scale(' + tScaleX + ',' + tScaleY + ') ';
+            }
             transform += m.initialTransform;
             m.el.style.transform = transform;
-            Array.prototype.forEach.call(m.children, function (el) {
-                var scale = 'scale(' + (1 / tScaleX) + ',' + (1 / tScaleY) + ')';
-                el.style.transform = scale;
-            });
+            if (!useClipPath) {
+                Array.prototype.forEach.call(m.children, function (el) {
+                    var scale = 'scale(' + (1 / tScaleX) + ',' + (1 / tScaleY) + ')';
+                    el.style.transform = scale;
+                });
+            }
+            else {
+                m.el.style.clipPath = 'inset(0px ' + tClipX + 'px ' + tClipY + 'px 0px)';
+            }
         });
         t -= (16 / duration);
         if (t > 0) {
@@ -116,6 +132,7 @@ function run(fn, accordion) {
             m.el.style.transformOrigin = '';
             m.el.style.transform = m.initialTransform;
             m.el.style.willChange = '';
+            m.el.style.clipPath = '';
             Array.prototype.forEach.call(m.children, function (el) {
                 el.style.transformOrigin = '';
                 el.style.transform = '';

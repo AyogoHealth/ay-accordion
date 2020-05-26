@@ -1,4 +1,4 @@
-/*! Copyright 2019 Ayogo Health Inc. */
+/*! Copyright 2020 Ayogo Health Inc. */
 /**
  * ay-accordion-root is a web-component which wraps the ay-accordion elements as its children.
  *
