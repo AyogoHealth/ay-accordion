@@ -159,12 +159,13 @@ function run (fn, accordion : HTMLElement) {
     Array.prototype.forEach.call(measurements, function(m) {
       m.el.style.transformOrigin = '';
       m.el.style.transform = m.initialTransform;
-      m.el.style.willChange = ''
+      m.el.style.willChange = '';
+      m.el.style.clipPath = '';
 
       Array.prototype.forEach.call(m.children, function(el) {
         el.style.transformOrigin = '';
         el.style.transform = '';
-        el.style.willChange = ''
+        el.style.willChange = '';
       });
     });
 
