@@ -17,38 +17,33 @@
        A mobile friendly, web component based jank free accordion
       </p>
     </header>
-    <div class="container">
+    <main class="container">
       <ay-accordion-root multiple>
         <ay-accordion>
           <ay-accordion-header>
             Features
           </ay-accordion-header>
-          <div>
-            <ul>
-              <li>Keyboard accessible and screen-reader friendly</li>
-              <li>Support for single/multiple expanded regions</li>
-              <li>Smooth animation on desktop and mobile</li>
-              <li>Per-section open/close events</li>
-              <li> Works with browsers supporting ES6 and web components</li>
-            </ul>
-          </div>
+
+          <ul>
+            <li>Keyboard accessible and screen-reader friendly</li>
+            <li>Support for single/multiple expanded regions</li>
+            <li>Smooth animation on desktop and mobile</li>
+            <li>Per-section open/close events</li>
+            <li>Works with browsers supporting ES6 and web components</li>
+          </ul>
         </ay-accordion>
+
         <ay-accordion>
           <ay-accordion-header>
-            Usage
-          </ay-accordion-header>
-          <p>To get started, install the package from npm: <code>npm install ay-accordion</code></p>
-          <h3>Basic Usage</h3>
-          <p>Add a script tag to your page to reference the accordion.js file:</p>
-          <p><code>&lt;script src="node_modules/ay-accordion/dist/index.js"&gt;&lt;/script&gt;</code></p>
-        </ay-accordion>
-        <ay-accordion>
-          <ay-accordion-header>
-            Web Components
+            Installation &amp; Usage
           </ay-accordion-header>
 
-          <div>
-            <pre><code>&lt;ay-accordion-root multiple&gt;
+          <p>To get started, install the package from npm: <code>npm install ay-accordion</code></p>
+          <h3>Usage</h3>
+          <p>Add a script tag to your page to reference the accordion.js file:</p>
+          <p><code>&lt;script src="node_modules/ay-accordion/dist/index.js"&gt;&lt;/script&gt;</code></p>
+          <p>Mark up your accordions using the provided web component HTML elements:</p>
+          <pre><code>&lt;ay-accordion-root multiple&gt;
   &lt;ay-accordion open&gt;
     &lt;ay-accordion-header&gt;Panel 1 (Click to open)&lt;/b&gt;
       &lt;div&gt;
@@ -57,47 +52,58 @@
     &lt;/ay-accordion-header&gt;
   &lt;/ay-accordion&gt;
 &lt;/ay-accordion-root multiple&gt;</code></pre>
-
-            <h3>ay-accordion-root</h3>
-            <p>This web component wraps the entire accordion, as well as any content below the accordion that needs to be pushed down when accordion sections open and close.</p>
-            <dl>
-              <dt>multiple</dt>
-              <dd>This attribute allows multiple accordion sections to be open at the same time (default is only a single section expanded at a time).</dd>
-            </dl>
-
-            <h3>ay-accordion</h3>
-            <p>This web component manages a single expanding/collapsing accordion section, including the title content shown when it is collapsed.</p>
-            <dl>
-              <dt>open</dt>
-              <dd>This attribute will make the section expanded by default.</dd>
-
-              <dt>disabled</dt>
-              <dd>This attribute will disable the open/close ability of the accordion. The accordion will still maintain its original state open/close.</dd>
-            </dl>
-
-            <h3>ay-accordion-header</h3>
-            <p>This web component wraps the title of the accordion section, and attaches the event handlers to expand the section when clicked.</p>
-          </div>
         </ay-accordion>
-        <ay-accordion>
-          <ay-accordion-header>Notes</ay-accordion-header>
-          <div>
-            <p>Released under the terms of the <a href="https://github.com/AyogoHealth/ay-accordion/blob/master/LICENCE">MIT License</a>.</p>
 
-            <p>This project would not have happened without the knowledge and support of <a href="https://github.com/AdaRoseEdwards">Ada Rose Edwards</a>, in particular the following two posts:</p>
-            <ul>
-              <li><a href="https://ada.is/blog/2015/04/26/animation-perf/">Animation Performance</a></li>
-              <li><a href="https://ada.is/blog/2015/04/29/animation-perf-follow-up/">Animation Performance - Follow Up</a></li>
-            </ul>
-          </div>
-          </ay-accordion>
+        <ay-accordion>
+          <ay-accordion-header>
+            The Accordion Components
+          </ay-accordion-header>
+
+          <p>This package provides 3 HTML custom elements built using web components, which can be used to build accordions.</p>
+
+          <h3>ay-accordion-root</h3>
+          <p>This web component wraps the entire accordion, as well as any content below the accordion that needs to be pushed down when accordion sections open and close.</p>
+          <dl>
+            <dt>multiple</dt>
+            <dd>This attribute allows multiple accordion sections to be open at the same time (default is only a single section expanded at a time).</dd>
+          </dl>
+
+          <h3>ay-accordion</h3>
+          <p>This web component manages a single expanding/collapsing accordion section, including the title content shown when it is collapsed.</p>
+          <dl>
+            <dt>open</dt>
+            <dd>This attribute will make the section expanded by default.</dd>
+
+            <dt>disabled</dt>
+            <dd>This attribute will disable the open/close functionality of the accordion. The accordion will still maintain its original state open/close.</dd>
+          </dl>
+
+          <h3>ay-accordion-header</h3>
+          <p>This web component wraps the title of the accordion section, and attaches the event handlers to expand the section when clicked.</p>
+        </ay-accordion>
+
+        <ay-accordion>
+          <ay-accordion-header>Additional Information</ay-accordion-header>
+
+          <p>Contributions of bug reports, feature requests, and pull requests are greatly appreciated on our <a href="https://github.com/AyogoHealth/ay-accordion">GitHub project</a>!</p>
+
+          <p>Released under the terms of the <a href="https://github.com/AyogoHealth/ay-accordion/blob/master/LICENCE">MIT License</a>.</p>
+
+          <p>This project would not have happened without the knowledge and support of <a href="https://ada.is">Ada Rose Cannon</a>, in particular the following posts:</p>
+          <ul>
+            <li><a href="https://ada.is/blog/2015/04/26/animation-perf/">Animation Performance</a></li>
+            <li><a href="https://ada.is/blog/2015/04/29/animation-perf-follow-up/">Animation Performance - Follow Up</a></li>
+            <li><a href="https://medium.com/samsung-internet-dev/animating-dom-changes-33b031927e96">Animating DOM Changes</a></li>
+          </ul>
+        </ay-accordion>
+
+        <footer>
+          Copyright &copy; 2020 <a href="http://ayogo.com">Ayogo Health Inc.</a>
+          <br>
+          MIT Licence
+        </footer>
       </ay-accordion-root>
-      <footer>
-        Copyright &copy; 2019 <a href="http://ayogo.com">Ayogo Health Inc.</a>
-        <br>
-        MIT Licence
-      </footer>
-    </div>
+    </main>
   </body>
 </html>
 

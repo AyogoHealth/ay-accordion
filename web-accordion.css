@@ -1,8 +1,13 @@
 ay-accordion {
   display: block;
 }
+
+[hidden] {
+  display: none !important;
+}
+
 body {
-  font-family: caption, sans-serif;
+  font-family: system-ui, sans-serif;
   margin: 0;
   padding: 0;
 
@@ -11,11 +16,11 @@ body {
 }
 
 a[href] {
-  color: #58c4e0;
+  color: #db003e;
 }
 
 a[href]:focus {
-  color: #ff0046;
+  color: #7a0023;
 }
 
 dl dt {
@@ -32,6 +37,7 @@ h1, h2, h3 {
 h3 {
   border-bottom: 1px solid #e5e5e5;
   padding-top: 1rem;
+  color: #3b3b3b;
 }
 
 p.lead {
@@ -83,7 +89,6 @@ ay-accordion {
 ay-accordion ay-accordion-header:before {
   content: '';
   display: inline-block;
-  /* float: left; */
   border-left: 10px solid #58c4e0;
   border-right: 10px solid transparent;
   border-top: 8px solid transparent;
@@ -117,8 +122,12 @@ ay-accordion-header {
   font-size: 24px;
 }
 
-ay-accordion-header:focus{
+ay-accordion-header:focus {
   outline: none;
+}
+
+ay-accordion:focus-within {
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
 footer {

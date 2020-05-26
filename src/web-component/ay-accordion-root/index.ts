@@ -1,4 +1,4 @@
-/*! Copyright 2019 Ayogo Health Inc. */
+/*! Copyright 2020 Ayogo Health Inc. */
 /**
  * ay-accordion-root is a web-component which wraps the ay-accordion elements as its children.
  *
@@ -140,7 +140,7 @@ function run (fn, accordion : HTMLElement) {
           el.style.transform = scale;
         });
       } else {
-        m.el.style.clipPath = `inset(0px ${tClipX}px ${tClipY}px 0px)`;
+        m.el.style.clipPath = 'inset(0px ' + tClipX + 'px ' + tClipY + 'px 0px)';
       }
     });
 
@@ -159,12 +159,13 @@ function run (fn, accordion : HTMLElement) {
     Array.prototype.forEach.call(measurements, function(m) {
       m.el.style.transformOrigin = '';
       m.el.style.transform = m.initialTransform;
-      m.el.style.willChange = ''
+      m.el.style.willChange = '';
+      m.el.style.clipPath = '';
 
       Array.prototype.forEach.call(m.children, function(el) {
         el.style.transformOrigin = '';
         el.style.transform = '';
-        el.style.willChange = ''
+        el.style.willChange = '';
       });
     });
 
