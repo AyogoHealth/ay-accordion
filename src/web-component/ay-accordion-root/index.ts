@@ -1,4 +1,4 @@
-/*! Copyright 2019 Ayogo Health Inc. */
+/*! Copyright 2020 Ayogo Health Inc. */
 /**
  * ay-accordion-root is a web-component which wraps the ay-accordion elements as its children.
  *
@@ -140,7 +140,7 @@ function run (fn, accordion : HTMLElement) {
           el.style.transform = scale;
         });
       } else {
-        m.el.style.clipPath = `inset(0px ${tClipX}px ${tClipY}px 0px)`;
+        m.el.style.clipPath = 'inset(0px ' + tClipX + 'px ' + tClipY + 'px 0px)';
       }
     });
 
