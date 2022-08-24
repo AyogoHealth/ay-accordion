@@ -2,17 +2,17 @@
 (function (factory) {
     typeof define === 'function' && define.amd ? define(factory) :
     factory();
-}((function () { 'use strict';
+})((function () { 'use strict';
 
-    /*! Copyright 2020 Ayogo Health Inc. */
+    /*! Copyright 2019 - 2022 Ayogo Health Inc. */
     const useClipPath = window.CSS && window.CSS.supports && window.CSS.supports('clip-path', 'inset(0px 0px 0px 0px)');
     function run(fn, accordion) {
-        let root = accordion.closest('ay-accordion-root');
-        let elementsToWatch = Array.prototype.filter.call(root.childNodes, function (el) {
+        const root = accordion.closest('ay-accordion-root');
+        const elementsToWatch = Array.prototype.filter.call(root.childNodes, function (el) {
             return el.nodeType === 1;
         });
-        let preRoot = root.getBoundingClientRect();
-        let measurements = Array.prototype.map.call(elementsToWatch, function (el) {
+        const preRoot = root.getBoundingClientRect();
+        const measurements = Array.prototype.map.call(elementsToWatch, function (el) {
             return {
                 el: el,
                 initialDimensions: el.getBoundingClientRect(),
@@ -22,7 +22,7 @@
         root.style.minHeight = preRoot.height + 'px';
         if (!root.hasAttribute('multiple')) {
             root.querySelectorAll('ay-accordion').forEach((acc) => {
-                if (acc.hasAttribute('open') && acc != accordion) {
+                if (acc.hasAttribute('open') && acc !== accordion) {
                     acc.removeAttribute('open');
                 }
             });
@@ -135,7 +135,7 @@
         customElements.define('ay-accordion-root', AyAccordionRoot);
     }
 
-    /*! Copyright 2019 Ayogo Health Inc. */
+    /*! Copyright 2019 - 2022 Ayogo Health Inc. */
     const accordionEventMap = new WeakMap();
     class AyAccordion extends HTMLElement {
         childCallback(el) {
@@ -201,6 +201,7 @@
                 }, this);
             };
             this.addEventListener('toggle', handleToggle);
+            Array.prototype.forEach.call(this.children, (el) => this.childCallback(el));
         }
         disconnectedCallback() {
             if (accordionEventMap.has(this)) {
@@ -227,7 +228,7 @@
         customElements.define('ay-accordion', AyAccordion);
     }
 
-    /*! Copyright 2019 Ayogo Health Inc. */
+    /*! Copyright 2019 - 2022 Ayogo Health Inc. */
     const accordionHeaderClickMap = new WeakMap();
     const accordionHeaderPressMap = new WeakMap();
     class AyAccordionHeader extends HTMLElement {
@@ -271,5 +272,5 @@
         customElements.define('ay-accordion-header', AyAccordionHeader);
     }
 
-})));
+}));
 //# sourceMappingURL=index.js.map

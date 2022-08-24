@@ -1,34 +1,13 @@
-/*! Copyright 2020 Ayogo Health Inc. */
-/**
- * ay-accordion-root is a web-component which wraps the ay-accordion elements as its children.
- *
- * ay-accordion-root can take on the following attributes
- * multiple: This attribute allows multiple accordion sections to be open at the same time (default is only a single section expanded at a time).
- *
- * For example:
- * ```
- * <ay-accordion-root>
- *  <ay-accordion>
- *   <ay-accordion-header>
- *     Button Name
- *    </ay-accordion-header>
- *    <p> Some content </p>
- *  </ay-accordion>
- * </ay-accordion-root>
- * ```
- *
- * @name ay-accordion-root
- *
- */
+/*! Copyright 2019 - 2022 Ayogo Health Inc. */
 const useClipPath = window.CSS && window.CSS.supports && window.CSS.supports('clip-path', 'inset(0px 0px 0px 0px)');
 function run(fn, accordion) {
-    let root = accordion.closest('ay-accordion-root');
-    let elementsToWatch = Array.prototype.filter.call(root.childNodes, function (el) {
+    const root = accordion.closest('ay-accordion-root');
+    const elementsToWatch = Array.prototype.filter.call(root.childNodes, function (el) {
         return el.nodeType === 1;
     });
-    let preRoot = root.getBoundingClientRect();
+    const preRoot = root.getBoundingClientRect();
     // Take initial measurements
-    let measurements = Array.prototype.map.call(elementsToWatch, function (el) {
+    const measurements = Array.prototype.map.call(elementsToWatch, function (el) {
         return {
             el: el,
             initialDimensions: el.getBoundingClientRect(),
@@ -39,7 +18,7 @@ function run(fn, accordion) {
     if (!root.hasAttribute('multiple')) {
         //Close existing panels if needed
         root.querySelectorAll('ay-accordion').forEach((acc) => {
-            if (acc.hasAttribute('open') && acc != accordion) {
+            if (acc.hasAttribute('open') && acc !== accordion) {
                 acc.removeAttribute('open');
             }
         });
@@ -148,6 +127,26 @@ function run(fn, accordion) {
         }
     }
 }
+/**
+ * ay-accordion-root is a web-component which wraps the ay-accordion elements as its children.
+ *
+ * ay-accordion-root can take on the following attributes
+ * multiple: This attribute allows multiple accordion sections to be open at the same time (default is only a single section expanded at a time).
+ *
+ * For example:
+ * ```
+ * <ay-accordion-root>
+ *  <ay-accordion>
+ *   <ay-accordion-header>
+ *     Button Name
+ *    </ay-accordion-header>
+ *    <p> Some content </p>
+ *  </ay-accordion>
+ * </ay-accordion-root>
+ * ```
+ *
+ * @name ay-accordion-root
+ */
 export class AyAccordionRoot extends HTMLElement {
 }
 if (window.customElements) {
