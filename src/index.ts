@@ -19,6 +19,6 @@
  * IN THE SOFTWARE.
  */
 
-import './web-component/ay-accordion/index'
-import './web-component/ay-accordion-header/index'
-import './web-component/ay-accordion-root/index'
+import './web-component/ay-accordion/index';
+import './web-component/ay-accordion-header/index';
+import './web-component/ay-accordion-root/index';

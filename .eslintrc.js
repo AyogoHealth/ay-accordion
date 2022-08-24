@@ -1,4 +1,4 @@
-/*! Copyright 2019 Ayogo Health Inc. */
+/*! Copyright 2019 - 2022 Ayogo Health Inc. */
 
 module.exports = {
   root: true,
@@ -34,9 +34,9 @@ module.exports = {
     "radix": "error",
     "semi": ["error", "always"],
 
-    "header/header": [2, "block", { "pattern": "! Copyright \\d{4} Ayogo Health Inc." }],
+    "header/header": [2, "block", { "pattern": "! Copyright .+ Ayogo Health Inc." }],
 
-    "@typescript-eslint/class-name-casing": "warn",
+    "@typescript-eslint/naming-convention": ["warn", { selector: 'class', format: ['PascalCase'] }],
     "@typescript-eslint/indent": ["error", 2],
     "@typescript-eslint/no-namespace": "error",
     "@typescript-eslint/no-this-alias": "warn"
