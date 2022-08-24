@@ -1,4 +1,9 @@
-/*! Copyright 2019 Ayogo Health Inc. */
+/*! Copyright 2019 - 2022 Ayogo Health Inc. */
+
+import { run } from '../ay-accordion-root/index';
+
+const accordionEventMap: WeakMap<HTMLElement, () => void> = new WeakMap();
+
 /**
  * ay-accordion is a web-component that enables hiding and showing of its child nodes by the use of click handlers
  * It must have an ay-accordion-header element as child and this acts as a button for toggling ay-accordion.
@@ -19,16 +24,8 @@
  * ```
  *
  * @name ay-accordion
- *
  */
-
- import { run } from '../ay-accordion-root/index'
-
-const accordionEventMap: WeakMap<HTMLElement, () => void> = new WeakMap();
-
 export class AyAccordion extends HTMLElement {
-  //Add event listeners for the dispatched events from the ay-acc-hed
-
   childCallback(el) {
     if (el.tagName === 'AY-ACCORDION-HEADER') {
       return;
@@ -113,14 +110,13 @@ export class AyAccordion extends HTMLElement {
     }
   }
 
-  get open(): boolean{
+  get open(): boolean {
     return this.hasAttribute('open');
   }
 
   static get observedAttributes() {
     return ['open', 'disabled'];
   }
-
 }
 
 if (window.customElements) {
