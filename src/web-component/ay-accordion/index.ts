@@ -93,6 +93,8 @@ export class AyAccordion extends HTMLElement {
     };
 
     this.addEventListener('toggle', handleToggle);
+
+    Array.prototype.forEach.call(this.children, (el) => this.childCallback(el));
   }
 
   disconnectedCallback() {
