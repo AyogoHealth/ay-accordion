@@ -1,4 +1,4 @@
-/*! Copyright 2019 - 2022 Ayogo Health Inc. */
+/*! Copyright 2019 - 2023 Ayogo Health Inc. */
 /**
  * ay-accordion is a web-component that enables hiding and showing of its child nodes by the use of click handlers
  * It must have an ay-accordion-header element as child and this acts as a button for toggling ay-accordion.

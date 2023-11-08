@@ -135,7 +135,7 @@
         customElements.define('ay-accordion-root', AyAccordionRoot);
     }
 
-    /*! Copyright 2019 - 2022 Ayogo Health Inc. */
+    /*! Copyright 2019 - 2023 Ayogo Health Inc. */
     const accordionEventMap = new WeakMap();
     class AyAccordion extends HTMLElement {
         childCallback(el) {

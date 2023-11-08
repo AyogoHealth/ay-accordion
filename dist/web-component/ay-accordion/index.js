@@ -1,5 +1,5 @@
-/*! Copyright 2019 - 2022 Ayogo Health Inc. */
-import { run } from '../ay-accordion-root/index';
+/*! Copyright 2019 - 2023 Ayogo Health Inc. */
+import { run } from '../ay-accordion-root/index.js';
 const accordionEventMap = new WeakMap();
 /**
  * ay-accordion is a web-component that enables hiding and showing of its child nodes by the use of click handlers

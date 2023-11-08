@@ -18,6 +18,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
+
 import './web-component/ay-accordion/index.js';
 import './web-component/ay-accordion-header/index.js';
 import './web-component/ay-accordion-root/index.js';
