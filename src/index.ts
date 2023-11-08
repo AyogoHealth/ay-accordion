@@ -1,4 +1,4 @@
-/*! Copyright (c) 2019 Ayogo Health Inc.
+/*! Copyright (c) 2019 - 2023 Ayogo Health Inc.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -19,6 +19,6 @@
  * IN THE SOFTWARE.
  */
 
-import './web-component/ay-accordion/index';
-import './web-component/ay-accordion-header/index';
-import './web-component/ay-accordion-root/index';
+import './web-component/ay-accordion/index.js';
+import './web-component/ay-accordion-header/index.js';
+import './web-component/ay-accordion-root/index.js';
