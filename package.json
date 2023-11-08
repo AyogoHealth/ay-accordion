@@ -34,7 +34,7 @@
     "typescript": "^4.2.4"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json && rollup dist/index.js -n ayAccordion -c rollup.config.js -o dist/index.js",
+    "build": "tsc -p tsconfig.json && rollup dist/index.js -n ayAccordion -c rollup.config.js -o dist/index.js && cp src/index.ts dist/index.es6.js",
     "lint": "eslint --ext .ts src",
     "postversion": "git push && git push --tags",
     "version": "npm run build && git add -A dist"
