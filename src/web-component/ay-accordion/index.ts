@@ -2,8 +2,6 @@
 
 import { run } from '../ay-accordion-root/index.js';
 
-const accordionEventMap: WeakMap<HTMLElement, () => void> = new WeakMap();
-
 /**
  * ay-accordion is a web-component that enables hiding and showing of its child nodes by the use of click handlers
  * It must have an ay-accordion-header element as child and this acts as a button for toggling ay-accordion.
@@ -74,34 +72,34 @@ export class AyAccordion extends HTMLElement {
       Array.prototype.forEach.call(this.children, (el) => this.childCallback(el));
     });
 
-    childObserver.observe(this, { childList: true });
-
     if (this.hasAttribute('open')){
       this.setAttribute('aria-expanded', 'true');
     } else {
       this.setAttribute('aria-expanded', 'false');
     }
 
-    const handleToggle = () => {
+    this.addEventListener('toggle', this);
+
+    Array.prototype.forEach.call(this.children, (el) => this.childCallback(el));
+    childObserver.observe(this, { childList: true });
+  }
+
+  handleEvent(event) {
+    if (event.type === 'toggle') {
       if (this.hasAttribute('disabled')) {
         return;
       }
+
+      const wasOpen = this.open;
+
       run(() => {
         this.open = !this.open;
-      }, this );
-
-    };
-
-    this.addEventListener('toggle', handleToggle);
-
-    Array.prototype.forEach.call(this.children, (el) => this.childCallback(el));
+      }, this);
+    }
   }
 
   disconnectedCallback() {
-    if (accordionEventMap.has(this)){
-      this.removeEventListener('toggle', accordionEventMap.get(this));
-    }
-    accordionEventMap.delete(this);
+    this.removeEventListener('toggle', this);
   }
 
   set open(value: boolean) {
