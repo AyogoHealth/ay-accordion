@@ -1,6 +1,4 @@
-/*! Copyright 2019 - 2022 Ayogo Health Inc. */
-const accordionHeaderClickMap = new WeakMap();
-const accordionHeaderPressMap = new WeakMap();
+/*! Copyright 2019 - 2023 Ayogo Health Inc. */
 /**
  * ay-accordion-header acts as a button for its first parent ay-accordion element thereby enabling the toggle functionality
  *
@@ -24,30 +22,24 @@ export class AyAccordionHeader extends HTMLElement {
         else {
             this.setAttribute('aria-disabled', 'false');
         }
-        const toggleOnClick = () => {
+        this.addEventListener('click', this);
+        this.addEventListener('keydown', this);
+    }
+    handleEvent(event) {
+        if (event.type === 'click') {
             const ayAccordionElem = this.closest('ay-accordion');
             ayAccordionElem.dispatchEvent(new Event('toggle'));
-        };
-        const toggleOnPress = (event) => {
+        }
+        else if (event.type === 'keydown') {
             const ayAccordionElem = this.closest('ay-accordion');
             if (event.keyCode === 32 || event.keyCode === 13) {
                 ayAccordionElem.dispatchEvent(new Event('toggle'));
             }
-        };
-        this.addEventListener('click', toggleOnClick);
-        this.addEventListener('keydown', toggleOnPress);
-        accordionHeaderClickMap.set(this, toggleOnClick);
-        accordionHeaderPressMap.set(this, toggleOnPress);
+        }
     }
     disconnectedCallback() {
-        if (accordionHeaderPressMap.has(this)) {
-            this.removeEventListener('keydown', accordionHeaderPressMap.get(this));
-        }
-        if (accordionHeaderClickMap.has(this)) {
-            this.removeEventListener('click', accordionHeaderClickMap.get(this));
-        }
-        accordionHeaderClickMap.delete(this);
-        accordionHeaderPressMap.delete(this);
+        this.removeEventListener('keydown', this);
+        this.removeEventListener('click', this);
     }
 }
 if (window.customElements) {

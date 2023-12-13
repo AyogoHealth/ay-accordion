@@ -24,6 +24,7 @@ export declare class AyAccordion extends HTMLElement {
     childCallback(el: any): void;
     attributeChangedCallback(name: any, oldValue: any, newValue: any): void;
     connectedCallback(): void;
+    handleEvent(event: any): void;
     disconnectedCallback(): void;
     set open(value: boolean);
     get open(): boolean;

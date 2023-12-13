@@ -1,4 +1,4 @@
-/*! Copyright 2019 - 2022 Ayogo Health Inc. */
+/*! Copyright 2019 - 2023 Ayogo Health Inc. */
 /**
  * ay-accordion-header acts as a button for its first parent ay-accordion element thereby enabling the toggle functionality
  *
@@ -13,5 +13,6 @@
  */
 export declare class AyAccordionHeader extends HTMLElement {
     connectedCallback(): void;
+    handleEvent(event: any): void;
     disconnectedCallback(): void;
 }

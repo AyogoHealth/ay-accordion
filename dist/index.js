@@ -4,7 +4,7 @@
     factory();
 })((function () { 'use strict';
 
-    /*! Copyright 2019 - 2022 Ayogo Health Inc. */
+    /*! Copyright 2019 - 2023 Ayogo Health Inc. */
     const useClipPath = window.CSS && window.CSS.supports && window.CSS.supports('clip-path', 'inset(0px 0px 0px 0px)');
     function run(fn, accordion) {
         const root = accordion.closest('ay-accordion-root');
@@ -20,13 +20,15 @@
             };
         });
         root.style.minHeight = preRoot.height + 'px';
-        if (!root.hasAttribute('multiple')) {
-            root.querySelectorAll('ay-accordion').forEach((acc) => {
-                if (acc.hasAttribute('open') && acc !== accordion) {
+        const initiallyOpen = [];
+        root.querySelectorAll('ay-accordion').forEach((acc) => {
+            if (acc.hasAttribute('open')) {
+                initiallyOpen.push(acc);
+                if (!root.hasAttribute('multiple') && acc !== accordion) {
                     acc.removeAttribute('open');
                 }
-            });
-        }
+            }
+        });
         fn();
         Array.prototype.forEach.call(measurements, function (m) {
             m.newDimensions = m.el.getBoundingClientRect();
@@ -42,8 +44,17 @@
                 x: m.initialDimensions.left - m.newDimensions.left,
                 y: m.initialDimensions.top - m.newDimensions.top
             };
-            m.el.style.transformOrigin = "0 0";
-            m.el.style.willChange = useClipPath ? 'transform, clip-path' : 'transform';
+            m.deltaOffset = {
+                x: 0,
+                y: 0
+            };
+            if (m.initialDimensions.height !== m.newDimensions.height ||
+                m.initialDimensions.width !== m.newDimensions.width ||
+                m.initialDimensions.left !== m.newDimensions.left ||
+                m.initialDimensions.top !== m.newDimensions.top) {
+                m.el.style.transformOrigin = "0 0";
+                m.el.style.willChange = useClipPath ? 'transform, clip-path' : 'transform';
+            }
             m.children = [];
             if (m.initialDimensions.height !== m.newDimensions.height ||
                 m.initialDimensions.width !== m.newDimensions.width) {
@@ -52,20 +63,43 @@
                 });
                 if (!useClipPath) {
                     Array.prototype.forEach.call(m.children, function (el) {
-                        var elDimensions = el.getBoundingClientRect();
-                        var offsetFromParent = {
-                            x: m.newDimensions.left - elDimensions.left,
-                            y: m.newDimensions.top - elDimensions.top
-                        };
-                        var origin = offsetFromParent.x + 'px ';
-                        origin += offsetFromParent.y + 'px';
-                        el.style.transformOrigin = origin;
+                        if (m.clipSize.x > 0 || m.clipSize.y > 0) {
+                            var elDimensions = el.getBoundingClientRect();
+                            var offsetFromParent = {
+                                x: m.newDimensions.left - elDimensions.left,
+                                y: m.newDimensions.top - elDimensions.top
+                            };
+                            var origin = offsetFromParent.x + 'px ';
+                            origin += offsetFromParent.y + 'px';
+                            el.style.transformOrigin = origin;
+                        }
+                        else {
+                            el.style.transformOrigin = '0 0';
+                        }
                         el.style.willChange = 'transform';
                     });
                 }
             }
         });
-        var duration = 150;
+        const toClose = [];
+        initiallyOpen.forEach((el) => {
+            if (!el.hasAttribute('open')) {
+                toClose.push(el);
+                el.setAttribute('open', '');
+            }
+        });
+        if (toClose.length > 0) {
+            Array.prototype.forEach.call(measurements, function (m) {
+                const curDimensions = m.el.getBoundingClientRect();
+                if (Math.max(curDimensions.left, m.initialDimensions.left) > m.newDimensions.left) {
+                    m.deltaOffset.x = m.newDimensions.left - curDimensions.left;
+                }
+                if (Math.max(curDimensions.top, m.initialDimensions.top) > m.newDimensions.top) {
+                    m.deltaOffset.y = m.newDimensions.top - curDimensions.top;
+                }
+            });
+        }
+        var duration = 250;
         var t = 1;
         function tween() {
             Array.prototype.forEach.call(measurements, function (m) {
@@ -75,12 +109,20 @@
                     m.initialDimensions.top === m.newDimensions.top) {
                     return;
                 }
-                var tScaleX = 1 + (m.newScale.x - 1) * t;
-                var tScaleY = 1 + (m.newScale.y - 1) * t;
-                var tOffsetX = m.newOffset.x * t;
-                var tOffsetY = m.newOffset.y * t;
-                var tClipX = m.clipSize.x * t;
-                var tClipY = m.clipSize.y * t;
+                if (m.clipSize.x < 0 || m.clipSize.y < 0) {
+                    var tScaleX = 1 / (1 + (m.newScale.x - 1) * (1.0 - t));
+                    var tScaleY = 1 / (1 + (m.newScale.y - 1) * (1.0 - t));
+                    var tClipX = Math.abs(m.clipSize.x) * (1.0 - t);
+                    var tClipY = Math.abs(m.clipSize.y) * (1.0 - t);
+                }
+                else {
+                    var tScaleX = 1 + (m.newScale.x - 1) * t;
+                    var tScaleY = 1 + (m.newScale.y - 1) * t;
+                    var tClipX = m.clipSize.x * t;
+                    var tClipY = m.clipSize.y * t;
+                }
+                var tOffsetX = m.deltaOffset.x + (m.newOffset.x * t);
+                var tOffsetY = m.deltaOffset.y + (m.newOffset.y * t);
                 var transform = 'translate(';
                 transform += tOffsetX + 'px, ';
                 transform += tOffsetY + 'px) ';
@@ -121,12 +163,15 @@
                 });
             });
             root.style.minHeight = null;
-            var scrollingRoot = document['scrollingElement'] || document.body;
+            var scrollingRoot = document.scrollingElement || document.body;
             var pageBottom = scrollingRoot.scrollTop + scrollingRoot.clientHeight;
             var lastChild = measurements.pop();
             if (lastChild.initialDimensions.height !== lastChild.newDimensions.height && (pageBottom - lastChild.initialDimensions.bottom < lastChild.initialDimensions.height)) {
                 window.scrollBy(0, (lastChild.newDimensions.height - lastChild.initialDimensions.height));
             }
+            toClose.forEach((el) => {
+                el.removeAttribute('open');
+            });
         }
     }
     class AyAccordionRoot extends HTMLElement {
@@ -136,7 +181,6 @@
     }
 
     /*! Copyright 2019 - 2023 Ayogo Health Inc. */
-    const accordionEventMap = new WeakMap();
     class AyAccordion extends HTMLElement {
         childCallback(el) {
             if (el.tagName === 'AY-ACCORDION-HEADER') {
@@ -185,29 +229,29 @@
             const childObserver = new MutationObserver(() => {
                 Array.prototype.forEach.call(this.children, (el) => this.childCallback(el));
             });
-            childObserver.observe(this, { childList: true });
             if (this.hasAttribute('open')) {
                 this.setAttribute('aria-expanded', 'true');
             }
             else {
                 this.setAttribute('aria-expanded', 'false');
             }
-            const handleToggle = () => {
+            this.addEventListener('toggle', this);
+            Array.prototype.forEach.call(this.children, (el) => this.childCallback(el));
+            childObserver.observe(this, { childList: true });
+        }
+        handleEvent(event) {
+            if (event.type === 'toggle') {
                 if (this.hasAttribute('disabled')) {
                     return;
                 }
+                this.open;
                 run(() => {
                     this.open = !this.open;
                 }, this);
-            };
-            this.addEventListener('toggle', handleToggle);
-            Array.prototype.forEach.call(this.children, (el) => this.childCallback(el));
+            }
         }
         disconnectedCallback() {
-            if (accordionEventMap.has(this)) {
-                this.removeEventListener('toggle', accordionEventMap.get(this));
-            }
-            accordionEventMap.delete(this);
+            this.removeEventListener('toggle', this);
         }
         set open(value) {
             if (value) {
@@ -228,9 +272,7 @@
         customElements.define('ay-accordion', AyAccordion);
     }
 
-    /*! Copyright 2019 - 2022 Ayogo Health Inc. */
-    const accordionHeaderClickMap = new WeakMap();
-    const accordionHeaderPressMap = new WeakMap();
+    /*! Copyright 2019 - 2023 Ayogo Health Inc. */
     class AyAccordionHeader extends HTMLElement {
         connectedCallback() {
             this.setAttribute('role', 'button');
@@ -242,30 +284,24 @@
             else {
                 this.setAttribute('aria-disabled', 'false');
             }
-            const toggleOnClick = () => {
+            this.addEventListener('click', this);
+            this.addEventListener('keydown', this);
+        }
+        handleEvent(event) {
+            if (event.type === 'click') {
                 const ayAccordionElem = this.closest('ay-accordion');
                 ayAccordionElem.dispatchEvent(new Event('toggle'));
-            };
-            const toggleOnPress = (event) => {
+            }
+            else if (event.type === 'keydown') {
                 const ayAccordionElem = this.closest('ay-accordion');
                 if (event.keyCode === 32 || event.keyCode === 13) {
                     ayAccordionElem.dispatchEvent(new Event('toggle'));
                 }
-            };
-            this.addEventListener('click', toggleOnClick);
-            this.addEventListener('keydown', toggleOnPress);
-            accordionHeaderClickMap.set(this, toggleOnClick);
-            accordionHeaderPressMap.set(this, toggleOnPress);
+            }
         }
         disconnectedCallback() {
-            if (accordionHeaderPressMap.has(this)) {
-                this.removeEventListener('keydown', accordionHeaderPressMap.get(this));
-            }
-            if (accordionHeaderClickMap.has(this)) {
-                this.removeEventListener('click', accordionHeaderClickMap.get(this));
-            }
-            accordionHeaderClickMap.delete(this);
-            accordionHeaderPressMap.delete(this);
+            this.removeEventListener('keydown', this);
+            this.removeEventListener('click', this);
         }
     }
     if (window.customElements) {

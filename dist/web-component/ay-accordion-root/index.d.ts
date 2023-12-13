@@ -1,4 +1,4 @@
-/*! Copyright 2019 - 2022 Ayogo Health Inc. */
+/*! Copyright 2019 - 2023 Ayogo Health Inc. */
 declare function run(fn: any, accordion: HTMLElement): void;
 /**
  * ay-accordion-root is a web-component which wraps the ay-accordion elements as its children.

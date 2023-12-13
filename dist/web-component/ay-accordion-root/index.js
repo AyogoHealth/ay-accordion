@@ -1,4 +1,4 @@
-/*! Copyright 2019 - 2022 Ayogo Health Inc. */
+/*! Copyright 2019 - 2023 Ayogo Health Inc. */
 const useClipPath = window.CSS && window.CSS.supports && window.CSS.supports('clip-path', 'inset(0px 0px 0px 0px)');
 function run(fn, accordion) {
     const root = accordion.closest('ay-accordion-root');
@@ -15,15 +15,17 @@ function run(fn, accordion) {
         };
     });
     root.style.minHeight = preRoot.height + 'px';
-    if (!root.hasAttribute('multiple')) {
-        //Close existing panels if needed
-        root.querySelectorAll('ay-accordion').forEach((acc) => {
-            if (acc.hasAttribute('open') && acc !== accordion) {
+    const initiallyOpen = [];
+    root.querySelectorAll('ay-accordion').forEach((acc) => {
+        if (acc.hasAttribute('open')) {
+            initiallyOpen.push(acc);
+            if (!root.hasAttribute('multiple') && acc !== accordion) {
+                //Close existing panels if needed
                 acc.removeAttribute('open');
             }
-        });
-    }
-    //Run the function to chaneg the state
+        }
+    });
+    //Run the function to change the state
     fn();
     Array.prototype.forEach.call(measurements, function (m) {
         m.newDimensions = m.el.getBoundingClientRect();
@@ -39,8 +41,17 @@ function run(fn, accordion) {
             x: m.initialDimensions.left - m.newDimensions.left,
             y: m.initialDimensions.top - m.newDimensions.top
         };
-        m.el.style.transformOrigin = "0 0";
-        m.el.style.willChange = useClipPath ? 'transform, clip-path' : 'transform';
+        m.deltaOffset = {
+            x: 0,
+            y: 0
+        };
+        if (m.initialDimensions.height !== m.newDimensions.height ||
+            m.initialDimensions.width !== m.newDimensions.width ||
+            m.initialDimensions.left !== m.newDimensions.left ||
+            m.initialDimensions.top !== m.newDimensions.top) {
+            m.el.style.transformOrigin = "0 0";
+            m.el.style.willChange = useClipPath ? 'transform, clip-path' : 'transform';
+        }
         m.children = [];
         // Set the grandchildren to the inverse transform
         if (m.initialDimensions.height !== m.newDimensions.height ||
@@ -50,20 +61,43 @@ function run(fn, accordion) {
             });
             if (!useClipPath) {
                 Array.prototype.forEach.call(m.children, function (el) {
-                    var elDimensions = el.getBoundingClientRect();
-                    var offsetFromParent = {
-                        x: m.newDimensions.left - elDimensions.left,
-                        y: m.newDimensions.top - elDimensions.top
-                    };
-                    var origin = offsetFromParent.x + 'px ';
-                    origin += offsetFromParent.y + 'px';
-                    el.style.transformOrigin = origin;
+                    if (m.clipSize.x > 0 || m.clipSize.y > 0) {
+                        var elDimensions = el.getBoundingClientRect();
+                        var offsetFromParent = {
+                            x: m.newDimensions.left - elDimensions.left,
+                            y: m.newDimensions.top - elDimensions.top
+                        };
+                        var origin = offsetFromParent.x + 'px ';
+                        origin += offsetFromParent.y + 'px';
+                        el.style.transformOrigin = origin;
+                    }
+                    else {
+                        el.style.transformOrigin = '0 0';
+                    }
                     el.style.willChange = 'transform';
                 });
             }
         }
     });
-    var duration = 150; // In milliseconds
+    const toClose = [];
+    initiallyOpen.forEach((el) => {
+        if (!el.hasAttribute('open')) {
+            toClose.push(el);
+            el.setAttribute('open', '');
+        }
+    });
+    if (toClose.length > 0) {
+        Array.prototype.forEach.call(measurements, function (m) {
+            const curDimensions = m.el.getBoundingClientRect();
+            if (Math.max(curDimensions.left, m.initialDimensions.left) > m.newDimensions.left) {
+                m.deltaOffset.x = m.newDimensions.left - curDimensions.left;
+            }
+            if (Math.max(curDimensions.top, m.initialDimensions.top) > m.newDimensions.top) {
+                m.deltaOffset.y = m.newDimensions.top - curDimensions.top;
+            }
+        });
+    }
+    var duration = 250; // In milliseconds
     var t = 1;
     function tween() {
         Array.prototype.forEach.call(measurements, function (m) {
@@ -73,12 +107,20 @@ function run(fn, accordion) {
                 m.initialDimensions.top === m.newDimensions.top) {
                 return;
             }
-            var tScaleX = 1 + (m.newScale.x - 1) * t;
-            var tScaleY = 1 + (m.newScale.y - 1) * t;
-            var tOffsetX = m.newOffset.x * t;
-            var tOffsetY = m.newOffset.y * t;
-            var tClipX = m.clipSize.x * t;
-            var tClipY = m.clipSize.y * t;
+            if (m.clipSize.x < 0 || m.clipSize.y < 0) {
+                var tScaleX = 1 / (1 + (m.newScale.x - 1) * (1.0 - t));
+                var tScaleY = 1 / (1 + (m.newScale.y - 1) * (1.0 - t));
+                var tClipX = Math.abs(m.clipSize.x) * (1.0 - t);
+                var tClipY = Math.abs(m.clipSize.y) * (1.0 - t);
+            }
+            else {
+                var tScaleX = 1 + (m.newScale.x - 1) * t;
+                var tScaleY = 1 + (m.newScale.y - 1) * t;
+                var tClipX = m.clipSize.x * t;
+                var tClipY = m.clipSize.y * t;
+            }
+            var tOffsetX = m.deltaOffset.x + (m.newOffset.x * t);
+            var tOffsetY = m.deltaOffset.y + (m.newOffset.y * t);
             var transform = 'translate(';
             transform += tOffsetX + 'px, ';
             transform += tOffsetY + 'px) ';
@@ -119,12 +161,15 @@ function run(fn, accordion) {
             });
         });
         root.style.minHeight = null;
-        var scrollingRoot = document['scrollingElement'] || document.body;
+        var scrollingRoot = document.scrollingElement || document.body;
         var pageBottom = scrollingRoot.scrollTop + scrollingRoot.clientHeight;
         var lastChild = measurements.pop();
         if (lastChild.initialDimensions.height !== lastChild.newDimensions.height && (pageBottom - lastChild.initialDimensions.bottom < lastChild.initialDimensions.height)) {
             window.scrollBy(0, (lastChild.newDimensions.height - lastChild.initialDimensions.height));
         }
+        toClose.forEach((el) => {
+            el.removeAttribute('open');
+        });
     }
 }
 /**
